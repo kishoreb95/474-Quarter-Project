@@ -22,8 +22,9 @@ shared_ptr<Shape> shape;
 shared_ptr<Shape> plane;
 vector<mat4> models(100);
 vector<float> bone::cylinder;
+vector<float> bone::cylinder_normals;
 int numAnimFrames;
-vector<float> posBuf;
+vector<float> posBuf, norBuf, texBuf;
 
 mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t)
 	{
@@ -116,7 +117,7 @@ public:
 	GLuint VertexArrayID;
 
 	// Data necessary to give our box to OpenGL
-	GLuint VertexBufferID, CylinderBufferID, VertexNormDBox, VertexTexBox, IndexBufferIDBox;
+	GLuint VertexBufferID, NormalBufferID, TextureBufferID, VertexNormDBox, VertexTexBox, IndexBufferIDBox;
 
 	//texture data
 	GLuint Texture;
@@ -201,6 +202,7 @@ public:
 			exit(1);
 		}
 		bone::cylinder = shapes[0].mesh.positions;
+		bone::cylinder_normals = shapes[0].mesh.normals;
 
 		//generate the VAO
 		glGenVertexArrays(1, &VertexArrayID);
@@ -212,8 +214,9 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, VertexBufferID);
 		
 		vector<vec4> pos;
+		vector<vec3> norms;
 		root->matrix(0, mat4(1.0f), models);
-		root->write_to_VBO(vec3(0, 0, 0), pos); //Pushes all the bones into the vbo
+		root->write_to_VBO(vec3(0, 0, 0), pos, norms); //Pushes all the bones into the vbo
 		size_stick = pos.size();
 		numAnimFrames = root->kids[0]->keyframes.size();
 		//actually memcopy the data - only do this once
@@ -225,11 +228,12 @@ public:
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		
+		vector<vec3> norBuf;
 		//Send a cylinder into the buffers
-		glGenBuffers(1, &CylinderBufferID);
+		glGenBuffers(1, &NormalBufferID);
 		//set the current state to focus on our vertex buffer
-		glBindBuffer(GL_ARRAY_BUFFER, CylinderBufferID);
-		glBufferData(GL_ARRAY_BUFFER, posBuf.size() * sizeof(float), posBuf.data(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, NormalBufferID);
+		glBufferData(GL_ARRAY_BUFFER, norms.size() * sizeof(vec3), norms.data(), GL_STATIC_DRAW);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -288,7 +292,7 @@ public:
 		prog->addUniform("S");
 		prog->addUniform("campos");
 		prog->addAttribute("vertPos");
-		prog->addAttribute("cylinder");
+		
 		prog->addAttribute("vertNor");
 		prog->addAttribute("vertTex");
 

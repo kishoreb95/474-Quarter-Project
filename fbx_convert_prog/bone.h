@@ -24,6 +24,7 @@ class bone
 {
 public:
 	vector<shared_ptr<keyframe>> keyframes;
+	static vector<float> cylinder;
 	mat4 *mat = NULL;
 	mat4 arrayelem = mat4(1.0f); 
 	void matrix(int time, mat4 parent, vector<mat4> &models)
@@ -41,14 +42,26 @@ public:
 	int index;
 	void write_to_VBO(vec3 origin, vector<vec4> &vpos)
 	{
-		if (parent == NULL)
+		/*if (parent == NULL)
 			vpos.push_back(vec4(origin, index));
 		else
 			vpos.push_back(vec4(origin, parent->index));
 		vec3 endp = origin + pos;
-		vpos.push_back(vec4(endp, index));
+		vpos.push_back(vec4(endp, index));*/
+		vec3 endp = origin + pos;
+		for (int i = 0; i < cylinder.size() - 3; i++)
+		{
+			vec4 vert = vec4(cylinder[i], cylinder[i + 1], cylinder[i + 2], 1.0f);
+			vert = glm::translate(mat4(1.0f), glm::mix(origin, endp, .5f)) * vert;
+			//TODO: Rotate into position
+			vpos.push_back(vec4(vert.x, vert.y, vert.z, index));
+		}
 		for (int i = 0; i < kids.size(); i++)
 			kids[i]->write_to_VBO(endp, vpos);
 	}
 };
 int readtobone(bone **root);
+static void setCylinder(vector<float> in)
+{
+	bone::cylinder = in;
+}

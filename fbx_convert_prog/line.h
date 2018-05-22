@@ -28,12 +28,13 @@ public:
 	bool is_active();
 	void reset();
 
-private:
+
+	std::vector<float> posBuf;
 	int segment_count = 0;
 	unsigned int posBufID = 0;	
 	unsigned int vaoID;
 	unsigned int pid;
-	unsigned int ucolor,uP,uV;
+	unsigned int ucolor,uP,uV, uM;
 };
 void cardinal_curve(vector<vec3> &result_path, vector<vec3> &original_path, int lod, float curly);
 

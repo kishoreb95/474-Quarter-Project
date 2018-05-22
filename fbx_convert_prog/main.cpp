@@ -15,12 +15,15 @@ based on CPE/CSC 471 Lab base code Wood/Dunn/Eckhardt
 #include "Shape.h"
 #include "Line.h"
 #include "bone.h"
+#include "tiny_obj_loader.h"
 using namespace std;
 using namespace glm;
 shared_ptr<Shape> shape;
 shared_ptr<Shape> plane;
 vector<mat4> models(100);
+vector<float> bone::cylinder;
 int numAnimFrames;
+vector<float> posBuf;
 
 mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t)
 	{
@@ -113,7 +116,7 @@ public:
 	GLuint VertexArrayID;
 
 	// Data necessary to give our box to OpenGL
-	GLuint VertexBufferID, VertexNormDBox, VertexTexBox, IndexBufferIDBox;
+	GLuint VertexBufferID, CylinderBufferID, VertexNormDBox, VertexTexBox, IndexBufferIDBox;
 
 	//texture data
 	GLuint Texture;
@@ -188,10 +191,16 @@ public:
 		shape->resize();
 		shape->init();
 
-		plane = make_shared<Shape>();
-		plane->loadMesh(resourceDirectory + "/FA18.obj");
-		plane->resize();
-		plane->init();
+		vector<tinyobj::shape_t> shapes;
+		vector<tinyobj::material_t> objMaterials;
+		string errStr;
+		bool loaded = false;
+		loaded = tinyobj::LoadObj(shapes, objMaterials, errStr, "..\\resources\\cylinder.obj");
+		if (shapes.size() <= 0)
+		{
+			exit(1);
+		}
+		bone::cylinder = shapes[0].mesh.positions;
 
 		//generate the VAO
 		glGenVertexArrays(1, &VertexArrayID);
@@ -214,10 +223,18 @@ public:
 		glEnableVertexAttribArray(0);
 		//key function to get up how many elements to pull out at a time (3)
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		
+		//Send a cylinder into the buffers
+		glGenBuffers(1, &CylinderBufferID);
+		//set the current state to focus on our vertex buffer
+		glBindBuffer(GL_ARRAY_BUFFER, CylinderBufferID);
+		glBufferData(GL_ARRAY_BUFFER, posBuf.size() * sizeof(float), posBuf.data(), GL_STATIC_DRAW);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glBindVertexArray(0);
-
-	
 
 		int width, height, channels;
 		char filepath[1000];
@@ -271,6 +288,7 @@ public:
 		prog->addUniform("S");
 		prog->addUniform("campos");
 		prog->addAttribute("vertPos");
+		prog->addAttribute("cylinder");
 		prog->addAttribute("vertNor");
 		prog->addAttribute("vertTex");
 
@@ -384,7 +402,9 @@ public:
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.003f, 0.003f, 0.003f));
 		S = TransZ * scale* Vi;
 		glUniformMatrix4fv(prog->getUniform("S"), 1, GL_FALSE, &S[0][0]);
-		glDrawArrays(GL_LINES, 0, size_stick);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glDrawElements(GL_TRIANGLES, size_stick, GL_UNSIGNED_INT, (const void *)0);
+		glDrawArrays(GL_TRIANGLES, 0, size_stick);
 		glBindVertexArray(0);		
 		prog->unbind();
 	}

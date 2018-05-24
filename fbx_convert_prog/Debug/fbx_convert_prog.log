@@ -1,33 +1,28 @@
-﻿  fbx_convert.cpp
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(33): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(50): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(77): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(78): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(79): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(92): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(93): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(94): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(97): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(98): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(99): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(153): warning C4244: 'initializing': conversion from 'fbxsdk::FbxLongLong' to 'int', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(169): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(170): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(171): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(178): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(179): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(180): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(184): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(185): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(186): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(187): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(192): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(193): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(194): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(237): warning C4244: 'initializing': conversion from 'fbxsdk::FbxLongLong' to 'int', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(216): warning C4101: 'i': unreferenced local variable
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(262): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+﻿  main.cpp
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(53): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(63): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(83): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(87): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(91): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(93): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(248): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(352): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(374): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(context.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_tls.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_tls.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.exe
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.pdb (Full PDB)

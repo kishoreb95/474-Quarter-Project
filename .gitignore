@@ -1,0 +1,8 @@
+*.tlog
+*.log
+*.pdb
+*.idb
+*.opendb
+Debug\
+fbx_convert_prog\Debug
+fbx_convert_prog\ext

@@ -4,3 +4,6 @@
 *.idb
 *.opendb
 *.db
+Debug\
+fbx_convert_prog\Debug\
+fbx_convert_prog\ext\

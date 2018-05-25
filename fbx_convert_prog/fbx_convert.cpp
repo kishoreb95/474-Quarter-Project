@@ -140,8 +140,8 @@ void CountBones(FbxNode* pNode, int &count)
 
 }
 
-void PrintAnimationData( FbxScene* lScene, bone *actual);
-void CalcTransRotAnim(FbxScene* lScene, FbxNode* lNode, int animno, bone *actual)
+void PrintAnimationData( FbxScene* lScene, bone *actual, int mode);
+void CalcTransRotAnim(FbxScene* lScene, FbxNode* lNode, int animno, bone *actual, int mode)
 {
 	FbxAnimStack* currAnimStack = lScene->GetSrcObject<FbxAnimStack>(animno);
 	FbxString animStackName = currAnimStack->GetName();
@@ -201,17 +201,20 @@ void CalcTransRotAnim(FbxScene* lScene, FbxNode* lNode, int animno, bone *actual
 
 	//cout << "\t" << "\t" << "quaternion (i,j,k,re): " << q1 << ", " << q2 << ", " << q3 << ", " << q0 << endl;
 	key->quaternion = quat(q0, q1, q2, q3);
-	actual->keyframes.push_back(key);
+	if (mode == 0)
+		actual->keyframes.push_back(key);
+	else if (mode == 1)
+		actual->anim2.push_back(key);
 }
 for (int k = 0; k < lNode->GetChildCount();k++)
-	CalcTransRotAnim( lScene, lNode->GetChild(k), animno, actual->kids[k]);
+	CalcTransRotAnim( lScene, lNode->GetChild(k), animno, actual->kids[k], mode);
 
 }
 
 
 
 //***************************************************************************************************************************************************************
-void PrintAnimationData(FbxScene* lScene, bone *actual)
+void PrintAnimationData(FbxScene* lScene, bone *actual, int mode)
 {
 	int i;
 
@@ -241,7 +244,7 @@ void PrintAnimationData(FbxScene* lScene, bone *actual)
 		cout << "key frame count: " << keyframecount << endl;
 		cout << "animation duration (ms): " << duration << endl;
 		for (int k = 0; k < lNode->GetChildCount(); k++)
-			CalcTransRotAnim(lScene, lNode->GetChild(k), l, actual);
+			CalcTransRotAnim(lScene, lNode->GetChild(k), l, actual, mode);
 	}
 }
 
@@ -340,8 +343,29 @@ int readtobone(bone **proot)
 
 	//cout << endl;
 	//cout << "Animation" << endl;	
-	PrintAnimationData(lScene, root);
+	PrintAnimationData(lScene, root, 0);
 
+	lSdkManager = FbxManager::Create();
+
+	// Create the IO settings object.
+	ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
+	lSdkManager->SetIOSettings(ios);
+
+	// Create an importer using the SDK manager.
+	lImporter = FbxImporter::Create(lSdkManager, "");
+
+	const char* walk = "Walking.fbx";
+	// Use the first argument as the filename for the importer.
+	if (!lImporter->Initialize(walk, -1, lSdkManager->GetIOSettings())) {
+		printf("Call to FbxImporter::Initialize() failed.\n");
+		printf("Error returned: %s\n\n", lImporter->GetStatus().GetErrorString());
+		FbxString error = lImporter->GetStatus().GetErrorString();
+		exit(-1);
+	}
+
+	// Create a new scene so that it can be populated by the imported file.
+	lScene = FbxScene::Create(lSdkManager, "myScene");
+	PrintAnimationData(lScene, root, 1);
 	/////////////////////
 	/////	End
 	///////////////////

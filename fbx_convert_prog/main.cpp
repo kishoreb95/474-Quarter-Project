@@ -25,6 +25,8 @@ vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
 int numAnimFrames;
 vector<float> posBuf, norBuf, texBuf;
+static int frame = 0;
+int mode = 0;
 
 mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t)
 	{
@@ -161,6 +163,11 @@ public:
 		{
 			mycam.d = 0;
 		}
+		if (key == GLFW_KEY_P && action == GLFW_PRESS)
+		{
+			frame = 0;
+			mode = 1;
+		}
 	}
 
 	// callback for the mouse when clicked move the triangle when helper functions
@@ -215,7 +222,7 @@ public:
 		
 		vector<vec4> pos;
 		vector<vec3> norms;
-		root->matrix(0, mat4(1.0f), models);
+		root->matrix(0, mat4(1.0f), models, 0);
 		root->write_to_VBO(vec3(0, 0, 0), pos, norms); //Pushes all the bones into the vbo
 		size_stick = pos.size();
 		numAnimFrames = root->kids[0]->keyframes.size();
@@ -369,14 +376,13 @@ public:
 		glEnable(GL_DEPTH_TEST);	
 		psky->unbind();
 		
-		static int frame = 0;
 		static float time = 0;
 		time += frametime;
 		if (time > .05)
 		{
 			time = 0;
 			frame++;
-			root->matrix(frame % numAnimFrames, mat4(1.0f), models);
+			root->matrix(frame % numAnimFrames, mat4(1.0f), models, mode);
 			cout << frame % numAnimFrames << endl;
 		}
 		prog->bind();

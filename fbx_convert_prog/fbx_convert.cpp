@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <memory>
 #include <fbxsdk.h>
 using namespace std;
 
@@ -53,6 +52,19 @@ FbxString GetAttributeTypeName(FbxNodeAttribute::EType type) {
 	case FbxNodeAttribute::eSubDiv: return "subdiv";
 	default: return "unknown";
 	}
+}
+
+/**
+* Print an attribute.
+*/
+void PrintAttribute(FILE *file,FbxNodeAttribute* pAttribute) {
+	if (!pAttribute) return;
+
+	FbxString typeName = GetAttributeTypeName(pAttribute->GetAttributeType());
+	FbxString attrName = pAttribute->GetName();
+	PrintTabs(file);
+	// Note: to retrieve the character array of a FbxString, use its Buffer() method.
+	fprintf(file,"<attribute type='%s' name='%s'/>\n", typeName.Buffer(), attrName.Buffer());
 }
 
 /**
@@ -107,17 +119,17 @@ void PrintNode(bone *actual, FbxNode* pNode, int lastlevel)
 
 
 	int child_count = pNode->GetChildCount();
-	//cout << "bone children count: " << child_count << endl;
-	//cout << "bone children names:" << endl;
+	/*cout << "bone children count: " << child_count << endl;
+	cout << "bone children names:" << endl;
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		{
 	
-		//cout << "\t" << pNode->GetChild(j)->GetName() << endl;
+		cout << "\t" << pNode->GetChild(j)->GetName() << endl;
 		}
 
 	//for (int i = 0; i < pNode->GetNodeAttributeCount(); i++)
 	//	PrintAttribute(file,pNode->GetNodeAttributeByIndex(i));
-
+	*/
 	// Recursively print the children.
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 	{
@@ -126,8 +138,6 @@ void PrintNode(bone *actual, FbxNode* pNode, int lastlevel)
 		k->parent = actual;
 		PrintNode(k,pNode->GetChild(j), level);
 	}
-
-
 }
 
 void CountBones(FbxNode* pNode, int &count)
@@ -140,8 +150,8 @@ void CountBones(FbxNode* pNode, int &count)
 
 }
 
-void PrintAnimationData( FbxScene* lScene, bone *actual, int mode);
-void CalcTransRotAnim(FbxScene* lScene, FbxNode* lNode, int animno, bone *actual, int mode)
+void PrintAnimationData(all_animations *all_animation, FbxScene* lScene, string name);
+void CalcTransRotAnim(all_animations *all_animation, FbxScene* lScene, FbxNode* lNode, int animno, string name)
 {
 	FbxAnimStack* currAnimStack = lScene->GetSrcObject<FbxAnimStack>(animno);
 	FbxString animStackName = currAnimStack->GetName();
@@ -153,24 +163,28 @@ void CalcTransRotAnim(FbxScene* lScene, FbxNode* lNode, int animno, bone *actual
 	int keyframecount = end.GetFrameCount(FbxTime::eFrames24) - start.GetFrameCount(FbxTime::eFrames24) + 1;
 
 	const char* nodeName = lNode->GetName();
-	//cout << endl << "\t" << "bone name: " << nodeName << "index: " << actual->index << endl << endl;
+//	cout << endl << "\t" << "bone name: " << nodeName << endl << endl;
+
+	animation_per_bone anim;
+	anim.bone = nodeName;
+	anim.duration = duration;
+	anim.frames = keyframecount;
+	anim.name = name;
+
 
 	for (FbxLongLong i = start.GetFrameCount(FbxTime::eFrames24); i <= end.GetFrameCount(FbxTime::eFrames24); ++i)
 	{
 	FbxTime currTime;
 	currTime.SetFrame(i, FbxTime::eFrames24);
-	shared_ptr<keyframe> key = make_shared<keyframe>();
-
 	long long time_ms=currTime.GetMilliSeconds();
-	key->timestamp_ms = time_ms;
 	//cout << "\t" << "\t" << "frame time stamp (ms): " << time_ms << endl;
 	FbxDouble3 translation = lNode->EvaluateLocalTranslation(currTime);
 	float t1, t2, t3;
 	t1 = translation[0];
 	t2 = translation[1];
 	t3 = translation[2];
-	//cout << "\t" << "\t" << "translation (x,y,z): " << t1 << ", " << t2 << ", " << t3 << endl;
-	key->translation = vec3(t1, t2, t3);
+//	cout << "\t" << "\t" << "translation (x,y,z): " << t1 << ", " << t2 << ", " << t3 << endl;
+
 	FbxDouble3 rotation = lNode->EvaluateLocalRotation(currTime);
 	FbxAMatrix& loctraf = lNode->EvaluateLocalTransform(currTime);
 
@@ -198,23 +212,32 @@ void CalcTransRotAnim(FbxScene* lScene, FbxNode* lNode, int animno, bone *actual
 	q1 = -(sin(e1 / 2)*cos(e2 / 2)*cos(e3 / 2) - cos(e1 / 2)*sin(e2 / 2)*sin(e3 / 2));
 	q2 =-( cos(e1 / 2)*sin(e2 / 2)*cos(e3 / 2) + sin(e1 / 2)*cos(e2 / 2)*sin(e3 / 2));
 	q3 =-( cos(e1 / 2)*cos(e2 / 2)*sin(e3 / 2) - sin(e1 / 2)*sin(e2 / 2)*cos(e3 / 2));
+	keyframe key;
+	key.timestamp_ms = time_ms;
+	key.quaternion.w = q0;
+	key.quaternion.x = q1;
+	key.quaternion.y = q2;
+	key.quaternion.z = q3;
+	
+	key.translation.x = t1;
+	key.translation.y = t2;
+	key.translation.z = t3;
 
-	//cout << "\t" << "\t" << "quaternion (i,j,k,re): " << q1 << ", " << q2 << ", " << q3 << ", " << q0 << endl;
-	key->quaternion = quat(q0, q1, q2, q3);
-	if (mode == 0)
-		actual->keyframes.push_back(key);
-	else if (mode == 1)
-		actual->anim2.push_back(key);
+	anim.keyframes.push_back(key);
+
+//	cout << "\t" << "\t" << "quaternion (i,j,k,re): " << q1 << ", " << q2 << ", " << q3 << ", " << q0 << endl;
+
 }
+all_animation->animations.push_back(anim);
 for (int k = 0; k < lNode->GetChildCount();k++)
-	CalcTransRotAnim( lScene, lNode->GetChild(k), animno, actual->kids[k], mode);
+	CalcTransRotAnim(all_animation,lScene, lNode->GetChild(k), animno, name);
 
 }
 
 
 
 //***************************************************************************************************************************************************************
-void PrintAnimationData(FbxScene* lScene, bone *actual, int mode)
+void PrintAnimationData(all_animations *all_animation,FbxScene* lScene, string name)
 {
 	int i;
 
@@ -244,23 +267,21 @@ void PrintAnimationData(FbxScene* lScene, bone *actual, int mode)
 		cout << "key frame count: " << keyframecount << endl;
 		cout << "animation duration (ms): " << duration << endl;
 		for (int k = 0; k < lNode->GetChildCount(); k++)
-			CalcTransRotAnim(lScene, lNode->GetChild(k), l, actual, mode);
+			CalcTransRotAnim(all_animation,lScene, lNode->GetChild(k), l, name);
 	}
 }
+
 
 /**
 * Main function - loads the hard-coded fbx file,
 * and prints its contents in an xml format to stdout.
 */
 
-int readtobone(bone **proot) 
+int readtobone(string file, all_animations *all_animation,bone **proot, string name)
 {
-
-	//ifstream fileHandle("fgdfg");
 	string name_of_file;
-	cout << endl << "Enter filename:" << endl;
-	//getline(cin,name_of_file);
-	name_of_file = "test.fbx";
+	cout << endl << "filename:" << endl;
+	name_of_file = file;
 	const char* lFilename = name_of_file.c_str();
 	FILE *checkfile=fopen(lFilename,"rb");
 	if (!checkfile)
@@ -330,7 +351,6 @@ int readtobone(bone **proot)
 		for (int i = 0; i < lRootNode->GetChildCount(); i++)//nur einen knochen machen
 			{
 			PrintNode(root,lRootNode->GetChild(i), -1);
-			root->kids[i]->parent = NULL;
 			}			
 	}
 
@@ -343,34 +363,13 @@ int readtobone(bone **proot)
 
 	//cout << endl;
 	//cout << "Animation" << endl;	
-	PrintAnimationData(lScene, root, 0);
+	PrintAnimationData(all_animation,lScene,name);
 
-	lSdkManager = FbxManager::Create();
-
-	// Create the IO settings object.
-	ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
-	lSdkManager->SetIOSettings(ios);
-
-	// Create an importer using the SDK manager.
-	lImporter = FbxImporter::Create(lSdkManager, "");
-
-	const char* walk = "Walking.fbx";
-	// Use the first argument as the filename for the importer.
-	if (!lImporter->Initialize(walk, -1, lSdkManager->GetIOSettings())) {
-		printf("Call to FbxImporter::Initialize() failed.\n");
-		printf("Error returned: %s\n\n", lImporter->GetStatus().GetErrorString());
-		FbxString error = lImporter->GetStatus().GetErrorString();
-		exit(-1);
-	}
-
-	// Create a new scene so that it can be populated by the imported file.
-	lScene = FbxScene::Create(lSdkManager, "myScene");
-	PrintAnimationData(lScene, root, 1);
 	/////////////////////
 	/////	End
 	///////////////////
 	//// Destroy the SDK manager and all the other objects it was handling.
-	//lSdkManager->Destroy();
+	lSdkManager->Destroy();
 	//system("pause");
 	return 0;
 }

@@ -20,44 +20,22 @@ using namespace std;
 using namespace glm;
 shared_ptr<Shape> shape;
 shared_ptr<Shape> plane;
-vector<mat4> models(100);
+mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t);
+float framespeed = 1.0f;
+string currentAnim = "walk";
+string nextAnim = "walk";
+float animationTransition = 0.0f;
+
+float char_angle = 0.0f;
+bool left_turn = false;
+bool right_turn = false;
+bool char_forward = false;
+bool char_backward = false;
+
+vec3 char_pos = vec3(0, 0, -8);
+
 vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
-int numAnimFrames;
-vector<float> posBuf, norBuf, texBuf;
-static int frame = 0;
-int mode = 0;
-
-mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t)
-	{
-	mat4 m1, m2;
-	quat q1, q2;
-	vec3 ex, ey, ez;
-	ey = ey_aka_up_1;
-	ez = ez_aka_lookto_1;
-	ex = cross(ey, ez);
-	m1[0][0] = ex.x;		m1[0][1] = ex.y;		m1[0][2] = ex.z;		m1[0][3] = 0;
-	m1[1][0] = ey.x;		m1[1][1] = ey.y;		m1[1][2] = ey.z;		m1[1][3] = 0;
-	m1[2][0] = ez.x;		m1[2][1] = ez.y;		m1[2][2] = ez.z;		m1[2][3] = 0;
-	m1[3][0] = 0;			m1[3][1] = 0;			m1[3][2] = 0;			m1[3][3] = 1.0f;
-	ey = ey_aka_up_2;
-	ez = ez_aka_lookto_2;
-	ex = cross(ey, ez);
-	m2[0][0] = ex.x;		m2[0][1] = ex.y;		m2[0][2] = ex.z;		m2[0][3] = 0;
-	m2[1][0] = ey.x;		m2[1][1] = ey.y;		m2[1][2] = ey.z;		m2[1][3] = 0;
-	m2[2][0] = ez.x;		m2[2][1] = ez.y;		m2[2][2] = ez.z;		m2[2][3] = 0;
-	m2[3][0] = 0;			m2[3][1] = 0;			m2[3][2] = 0;			m2[3][3] = 1.0f;
-	q1 = quat(m1);
-	q2 = quat(m2);
-	quat qt = slerp(q1, q2, t); //<---
-	qt = normalize(qt);
-	mat4 mt = mat4(qt);
-	//mt = transpose(mt);		 //<---
-	return mt;
-	}
-
-
-
 
 double get_last_elapsed_time()
 {
@@ -113,16 +91,21 @@ public:
 	WindowManager * windowManager = nullptr;
 
 	// Our shader program
-	std::shared_ptr<Program> prog, psky;
+	std::shared_ptr<Program> prog, psky, pplane;
 
 	// Contains vertex information for OpenGL
 	GLuint VertexArrayID;
 
 	// Data necessary to give our box to OpenGL
-	GLuint VertexBufferID, NormalBufferID, TextureBufferID, VertexNormDBox, VertexTexBox, IndexBufferIDBox;
+	GLuint VertexBufferID, VertexBufferIDimat, VertexNormDBox, VertexTexBox, IndexBufferIDBox, NormalBufferID;
 
 	//texture data
 	GLuint Texture;
+	GLuint Texture2;
+	
+	//animation matrices:
+	mat4 animmat[200];
+	int animmatsize=0;
 
 	void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	{
@@ -163,10 +146,48 @@ public:
 		{
 			mycam.d = 0;
 		}
-		if (key == GLFW_KEY_P && action == GLFW_PRESS)
+		if (key == GLFW_KEY_UP && action == GLFW_PRESS) //move character forward
 		{
-			frame = 0;
-			mode = 1;
+			char_forward = true;
+		}
+		if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) //move character backward
+		{
+			char_backward = true;
+		}
+		if (key == GLFW_KEY_UP && action == GLFW_RELEASE) //move character forward
+		{
+			char_forward = false;
+		}
+		if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) //move character backward
+		{
+			char_backward = false;
+		}
+
+		if (key == GLFW_KEY_O && action == GLFW_PRESS) //Walk
+		{
+			nextAnim = "walk";
+		}
+		if (key == GLFW_KEY_P && action == GLFW_PRESS) //Run
+		{
+			nextAnim = "run";
+		}
+
+
+		if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+		{
+			left_turn = true;
+		}
+		if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE)
+		{
+			left_turn = false;
+		}
+		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+		{
+			right_turn = true;
+		}
+		if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
+		{
+			right_turn = false;
 		}
 	}
 
@@ -189,10 +210,18 @@ public:
 	/*Note that any gl calls must always happen after a GL state is initialized */
 	bone *root = NULL;
 	int size_stick = 0;
+	all_animations all_animation;
 	void initGeom(const std::string& resourceDirectory)
 	{
+		for (int ii = 0; ii < 200; ii++)
+			animmat[ii] = mat4(1);
 		
-		readtobone(&root);
+		//Load in animations
+		readtobone("walk.fbx",&all_animation,&root, "walk");
+		readtobone("run.fbx", &all_animation, &root, "run");
+		root->set_animations(&all_animation,animmat,animmatsize);
+		
+			
 		// Initialize mesh.
 		shape = make_shared<Shape>();
 		shape->loadMesh(resourceDirectory + "/skybox.obj");
@@ -203,9 +232,11 @@ public:
 		vector<tinyobj::material_t> objMaterials;
 		string errStr;
 		bool loaded = false;
-		loaded = tinyobj::LoadObj(shapes, objMaterials, errStr, "..\\resources\\cylinder.obj");
+		string cylinder_load = resourceDirectory + "/cylinder.obj";
+		loaded = tinyobj::LoadObj(shapes, objMaterials, errStr, cylinder_load.data());
 		if (shapes.size() <= 0)
 		{
+			cout << "couldn't load" << endl;
 			exit(1);
 		}
 		bone::cylinder = shapes[0].mesh.positions;
@@ -213,36 +244,38 @@ public:
 
 		//generate the VAO
 		glGenVertexArrays(1, &VertexArrayID);
+
+		//VAO block
 		glBindVertexArray(VertexArrayID);
 
 		//generate vertex buffer to hand off to OGL
 		glGenBuffers(1, &VertexBufferID);
-		//set the current state to focus on our vertex buffer
+		//Vertex buffer setting
 		glBindBuffer(GL_ARRAY_BUFFER, VertexBufferID);
-		
-		vector<vec4> pos;
-		vector<vec3> norms;
-		root->matrix(0, mat4(1.0f), models, 0);
-		root->write_to_VBO(vec3(0, 0, 0), pos, norms); //Pushes all the bones into the vbo
+		vector<vec3> pos, norm;
+		vector<unsigned int> imat;
+		root->write_to_VBOs(pos, norm, imat);
 		size_stick = pos.size();
-		numAnimFrames = root->kids[0]->keyframes.size();
 		//actually memcopy the data - only do this once
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vec4)*pos.size(), pos.data(), GL_DYNAMIC_DRAW);
-
-		//we need to set up the vertex array
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*pos.size(), pos.data(), GL_DYNAMIC_DRAW);
 		glEnableVertexAttribArray(0);
-		//key function to get up how many elements to pull out at a time (3)
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		
-		vector<vec3> norBuf;
-		//Send a cylinder into the buffers
-		glGenBuffers(1, &NormalBufferID);
-		//set the current state to focus on our vertex buffer
-		glBindBuffer(GL_ARRAY_BUFFER, NormalBufferID);
-		glBufferData(GL_ARRAY_BUFFER, norms.size() * sizeof(vec3), norms.data(), GL_STATIC_DRAW);
+
+		glGenBuffers(1, &VertexBufferIDimat);
+		//ID buffer setting
+		glBindBuffer(GL_ARRAY_BUFFER, VertexBufferIDimat);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(uint)*imat.size(), imat.data(), GL_DYNAMIC_DRAW);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glVertexAttribIPointer(1, 1, GL_UNSIGNED_INT, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glGenBuffers(1, &NormalBufferID);
+		//Normal buffer setting
+		glBindBuffer(GL_ARRAY_BUFFER, NormalBufferID);
+		glBufferData(GL_ARRAY_BUFFER, norm.size() * sizeof(vec3), norm.data(), GL_STATIC_DRAW);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glBindVertexArray(0);
@@ -250,13 +283,13 @@ public:
 		int width, height, channels;
 		char filepath[1000];
 
-		//texture 1
+		//texture 2
 		string str = resourceDirectory + "/grid.jpg";
 		strcpy(filepath, str.c_str());
-		unsigned char* data = stbi_load(filepath, &width, &height, &channels, 4);
-		glGenTextures(1, &Texture);
+		unsigned char *data = stbi_load(filepath, &width, &height, &channels, 4);
+		glGenTextures(1, &Texture2);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, Texture);
+		glBindTexture(GL_TEXTURE_2D, Texture2);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -266,12 +299,11 @@ public:
 
 		//[TWOTEXTURES]
 		//set the 2 textures to the correct samplers in the fragment shader:
-		GLuint Tex1Location = glGetUniformLocation(prog->pid, "tex");//tex, tex2... sampler in the fragment shader
 		GLuint Tex2Location = glGetUniformLocation(prog->pid, "tex2");
 		// Then bind the uniform samplers to texture units:
 		glUseProgram(prog->pid);
-		glUniform1i(Tex1Location, 0);
 		glUniform1i(Tex2Location, 1);
+
 	}
 
 	//General OGL initialization - set OGL state here
@@ -296,15 +328,15 @@ public:
 		prog->addUniform("P");
 		prog->addUniform("V");
 		prog->addUniform("M");
-		prog->addUniform("S");
+		prog->addUniform("Manim");
 		prog->addUniform("campos");
 		prog->addAttribute("vertPos");
-		
+		prog->addAttribute("vertimat");
 		prog->addAttribute("vertNor");
-		prog->addAttribute("vertTex");
+
 
 		psky = std::make_shared<Program>();
-		psky->setVerbose(true);
+		psky->setVerbose(false);
 		psky->setShaderNames(resourceDirectory + "/skyvertex.glsl", resourceDirectory + "/skyfrag.glsl");
 		if (!psky->init())
 		{
@@ -314,10 +346,9 @@ public:
 		psky->addUniform("P");
 		psky->addUniform("V");
 		psky->addUniform("M");
-		psky->addUniform("campos");
 		psky->addAttribute("vertPos");
-		psky->addAttribute("vertNor");
 		psky->addAttribute("vertTex");
+		prog->addAttribute("vertNor");
 	}
 
 
@@ -333,6 +364,47 @@ public:
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		double frametime = get_last_elapsed_time();
+		static double totaltime_ms=0;
+		totaltime_ms += frametime*1000.0;
+		static double totaltime_untilframe_ms = 0;
+		totaltime_untilframe_ms += frametime*1000.0;
+
+		for (int ii = 0; ii < 200; ii++)
+			animmat[ii] = mat4(1);
+
+
+		//animation frame system
+		int anim_step_width_ms = 8490 / 204;
+		static float frame = 0;
+		if (totaltime_untilframe_ms >= anim_step_width_ms)
+			{
+			totaltime_untilframe_ms = 0;
+			frame += framespeed;
+			}
+		if (currentAnim == nextAnim)
+			root->play_animation(frame, currentAnim);	//name of current animation	
+		else
+		{
+			root->play_animation_mix(frame, &currentAnim, &nextAnim);
+			if (currentAnim == nextAnim) frame = 0;
+		}
+
+		if (left_turn)
+		{
+			char_angle += 0.1f;
+		}
+		else if (right_turn)
+		{
+			char_angle -= 0.1f;
+		}
+		if (char_forward)
+		{
+			char_pos.z += 1.0f;
+		}
+		else if (char_backward)
+		{
+			char_pos.z -= 1.0f;
+		}
 
 		// Get current frame buffer size.
 		int width, height;
@@ -345,7 +417,7 @@ public:
 
 		// Create the matrix stacks - please leave these alone for now
 		
-		glm::mat4 V, M, P, S; //View, Model and Perspective matrix
+		glm::mat4 V, M, P; //View, Model and Perspective matrix
 		V = mycam.process(frametime);
 		M = glm::mat4(1);
 		// Apply orthographic projection....
@@ -368,52 +440,27 @@ public:
 		glUniformMatrix4fv(psky->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(psky->getUniform("V"), 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(psky->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-		glUniform3fv(psky->getUniform("campos"), 1, &mycam.pos[0]);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Texture);
+		glBindTexture(GL_TEXTURE_2D, Texture2);
 		glDisable(GL_DEPTH_TEST);
 		shape->draw(psky, false);			//render!!!!!!!
 		glEnable(GL_DEPTH_TEST);	
 		psky->unbind();
 		
-		static float time = 0;
-		time += frametime;
-		if (time > .05)
-		{
-			time = 0;
-			frame++;
-			root->matrix(frame % numAnimFrames, mat4(1.0f), models, mode);
-			cout << frame % numAnimFrames << endl;
-		}
 		prog->bind();
 		//send the matrices to the shaders
 		glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-		if (frame == 10)
-		{
-			int z;
-			z = 0;
-
-		}
-		glUniformMatrix4fv(prog->getUniform("M"), models.size(), GL_FALSE, reinterpret_cast<GLfloat *>(models.data()));
-
+		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);	
 		glBindVertexArray(VertexArrayID);
-		//actually draw from vertex 0, 3 vertices
-		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, (void*)0);
-		mat4 Vi = glm::transpose(V);
-		Vi[0][3] = 0;
-		Vi[1][3] = 0;
-		Vi[2][3] = 0;
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Texture);
 
-		glm::mat4 TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, 0.0f, -3));
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.003f, 0.003f, 0.003f));
-		S = TransZ * scale* Vi;
-		glUniformMatrix4fv(prog->getUniform("S"), 1, GL_FALSE, &S[0][0]);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		//glDrawElements(GL_TRIANGLES, size_stick, GL_UNSIGNED_INT, (const void *)0);
+		glm::mat4 TransZ = glm::translate(glm::mat4(1.0f), char_pos);
+		glm::mat4 S = glm::scale(glm::mat4(1.0f), glm::vec3(0.005f, 0.005f, 0.005f));
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), char_angle, vec3(0, 1, 0));
+		M = TransZ * rotate * S;
+		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		glUniformMatrix4fv(prog->getUniform("Manim"), 200, GL_FALSE, &animmat[0][0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, size_stick);
 		glBindVertexArray(0);		
 		prog->unbind();

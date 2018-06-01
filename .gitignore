@@ -7,3 +7,5 @@
 Debug\
 fbx_convert_prog\Debug\
 fbx_convert_prog\ext\
+*.obj
+.vs/

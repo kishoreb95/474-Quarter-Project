@@ -79,5 +79,11 @@
     <None Include="..\resources\shader_fragment.glsl">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\resources\skyfrag.glsl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\resources\skyvertex.glsl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

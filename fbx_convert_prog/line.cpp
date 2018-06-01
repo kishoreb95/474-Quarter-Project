@@ -1,7 +1,6 @@
 #include "line.h"
 #include <iostream>
 #include "GLSL.h"
-#include "tiny_obj_loader.h"
 
 
 using namespace std;
@@ -20,11 +19,10 @@ bool Line::init()
 	layout(location = 0) in vec3 vertPos; \n\
 	uniform mat4 P; \n\
 	uniform mat4 V; \n\
-	uniform mat4 M; \n\
 	out vec3 vertex_pos;  \n\
 	void main() \n\
 	{ \n\
-		gl_Position = P * V * M * vec4(vertPos, 1.0); \n\
+		gl_Position = P * V * vec4(vertPos, 1.0); \n\
 	} \n\
 	");
 	std::string fShaderString = string("#version 330 core \n\
@@ -78,7 +76,6 @@ bool Line::init()
 	ucolor = GLSL::getUniformLocation(pid, "ucolor", true);
 	uP = GLSL::getUniformLocation(pid, "P", true);
 	uV = GLSL::getUniformLocation(pid, "V", true);
-	uM = GLSL::getUniformLocation(pid, "M", true);
 
 		
 	

@@ -25,13 +25,14 @@ string currentAnim = "walk";
 string nextAnim = "walk";
 float animationTransition = 0.0f;
 
-float char_angle = 0.0f;
+float char_angle = radians(90.0f);
 bool left_turn = false;
 bool right_turn = false;
 bool char_forward = false;
 bool char_backward = false;
 
 vec3 char_pos = vec3(0, 0, -8);
+vec3 char_direction = vec3(0, 0, 0);
 
 vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
@@ -153,11 +154,11 @@ public:
 		{
 			char_backward = true;
 		}
-		if (key == GLFW_KEY_UP && action == GLFW_RELEASE) //move character forward
+		if (key == GLFW_KEY_UP && action == GLFW_RELEASE) 
 		{
 			char_forward = false;
 		}
-		if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) //move character backward
+		if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) 
 		{
 			char_backward = false;
 		}
@@ -172,7 +173,7 @@ public:
 		}
 
 
-		if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+		if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) //Character rotates counterclockwise
 		{
 			left_turn = true;
 		}
@@ -180,7 +181,7 @@ public:
 		{
 			left_turn = false;
 		}
-		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) //Character rotates clockwise
 		{
 			right_turn = true;
 		}
@@ -392,13 +393,18 @@ public:
 		{
 			char_angle -= 0.1f;
 		}
+
+		glm::mat4 char_rotate = glm::rotate(glm::mat4(1.0f), char_angle, vec3(0, 1, 0));
+		char_direction = vec4(0, 0, 0.25f, 0) * char_rotate;
 		if (char_forward)
 		{
-			char_pos.z += 1.0f;
+			char_pos.z += char_direction.z;
+			char_pos.x += char_direction.x;
 		}
 		else if (char_backward)
 		{
-			char_pos.z -= 1.0f;
+			char_pos.z -= char_direction.z;
+			char_pos.x -= char_direction.x;
 		}
 
 		// Get current frame buffer size.
@@ -452,8 +458,7 @@ public:
 
 		glm::mat4 TransZ = glm::translate(glm::mat4(1.0f), char_pos);
 		glm::mat4 S = glm::scale(glm::mat4(1.0f), glm::vec3(0.005f, 0.005f, 0.005f));
-		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), char_angle, vec3(0, 1, 0));
-		M = TransZ * rotate * S;
+		M = TransZ * char_rotate * S;
 		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniformMatrix4fv(prog->getUniform("Manim"), 200, GL_FALSE, &animmat[0][0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, size_stick);

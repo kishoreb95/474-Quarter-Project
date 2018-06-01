@@ -52,7 +52,8 @@ public:
 	{
 		return exp((log(next * inverse(curr)) + log(prev * inverse(curr))) / -4.0f) * curr;
 	}
-	//interpolates between keyframenumber and keyframenumber + 1
+
+	//interpolates between keyframenumber and keyframenumber + 1 in the animation
 	quat quaterpolate(animation_per_bone *anim, int keyframenumber, float mix)
 	{
 		int prev = anim->keyframes.size() - 1;
@@ -142,8 +143,8 @@ public:
 			kids[i]->play_animation(keyframepos, animationname);
 	}
 
-
-	void play_animation_mix(float keyframepos, string *anim1, string *anim2)
+	//Transition between anim1 and anim2, when finished sets anim2 equal to anim1
+	void play_animation_mix(float keyframepos, string &anim1, string &anim2)
 	{
 		animation_per_bone * current = NULL;
 		animation_per_bone * next = NULL;
@@ -153,18 +154,21 @@ public:
 		int size;
 		for (int i = 0; i < animation.size(); i++)
 		{
-			if (animation[i]->name == *anim1)
+			//Find the current animation
+			if (animation[i]->name == anim1)
 			{
 				current = animation[i];
 				size = current->keyframes.size();
 				keyframenumber = keyframenumber % size;
-				if (*anim1 == *anim2 || (keyframenumber + framemix) / (size - 1) < 0.7)
+				//Wait until we are at the end of it before beginning transition
+				if (anim1 == anim2 || (keyframenumber + framemix) / (size - 1) < 0.7)
 				{
-					play_animation(keyframepos, *anim1);
+					play_animation(keyframepos, anim1);
 					return;
 				}
 			}
-			else if (animation[i]->name == *anim2)
+			//Find the next animation
+			else if (animation[i]->name == anim2)
 			{
 				next = animation[i];
 			}
@@ -181,11 +185,10 @@ public:
 				t1 = glm::mix(current->keyframes[keyframenumber].translation, current->keyframes[nextKeyFrame].translation, framemix);
 				t2 = next->keyframes[0].translation;
 
+				//Calculate how far we are between the two animation
 				mix = (keyframenumber + framemix) / float(size - 1) * 5.0f - 3.5f;
-				if (name == "Humanoid:Hips")
-					cout << mix << endl;
 				quat q = glm::mix(q1, q2, mix);
-				if (name != "Humanoid:Hips")
+				if (name != "Humanoid:Hips") //The hips are default vec3(0,0,0)
 					tr = glm::mix(t1, t2, mix);
 
 				mat4 M = mat4(q);
@@ -206,9 +209,10 @@ public:
 		{
 			kids[i]->play_animation_mix(keyframepos, anim1, anim2);
 		}
+		//Tell the caller that we have finished the animation transition
 		if (name == "Humanoid:Hips" && mix >= 0.99f)
 		{
-			*anim1 = *anim2;
+			anim1 = anim2;
 		}
 	}
 	//writes into the segment positions and into the animation index VBO

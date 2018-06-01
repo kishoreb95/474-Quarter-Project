@@ -21,7 +21,6 @@ using namespace glm;
 shared_ptr<Shape> shape;
 shared_ptr<Shape> plane;
 mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t);
-float framespeed = 1.0f;
 string currentAnim = "walk";
 string nextAnim = "walk";
 float animationTransition = 0.0f;
@@ -369,23 +368,19 @@ public:
 		static double totaltime_untilframe_ms = 0;
 		totaltime_untilframe_ms += frametime*1000.0;
 
-		for (int ii = 0; ii < 200; ii++)
-			animmat[ii] = mat4(1);
-
-
 		//animation frame system
 		int anim_step_width_ms = 8490 / 204;
 		static float frame = 0;
 		if (totaltime_untilframe_ms >= anim_step_width_ms)
-			{
+		{
 			totaltime_untilframe_ms = 0;
-			frame += framespeed;
-			}
+			frame += 1;
+		}
 		if (currentAnim == nextAnim)
 			root->play_animation(frame, currentAnim);	//name of current animation	
 		else
 		{
-			root->play_animation_mix(frame, &currentAnim, &nextAnim);
+			root->play_animation_mix(frame, currentAnim, nextAnim);
 			if (currentAnim == nextAnim) frame = 0;
 		}
 

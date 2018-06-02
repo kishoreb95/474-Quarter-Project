@@ -2,7 +2,8 @@
 CPE/CSC 474 Lab base code Eckhardt/Dahl
 based on CPE/CSC 471 Lab base code Wood/Dunn/Eckhardt
 */
-
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <glad/glad.h>
 #define STB_IMAGE_IMPLEMENTATION
@@ -225,9 +226,9 @@ public:
 		
 		//Load in animations
 		readtobone("Idle.fbx",&all_animation,&root, "idle");
-		readtobone("Walking.fbx", &all_animation, &root, "walk");
+		readtobone("Walking.fbx", &all_animation, NULL, "walk");
      
-     // readtobone("Walking.fbx", &all_animation, &root, "walkback"); // testing
+      readtobone("Walking.fbx", &all_animation, NULL, "walkback"); // testing
 		
       root->set_animations(&all_animation, animmat, animmatsize);
 			

@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -341,17 +342,19 @@ int readtobone(string file, all_animations *all_animation,bone **proot, string n
 	cout << endl;
 	cout << "count bones: " << count_bones << endl;
 	
-	
+	if (proot != NULL)
+	{
 		bone *root = new bone;
 		*proot = root;
 
-	if (lRootNode) 	
-	{
-		int anz = lRootNode->GetChildCount();
-		for (int i = 0; i < lRootNode->GetChildCount(); i++)//nur einen knochen machen
+		if (lRootNode)
+		{
+			int anz = lRootNode->GetChildCount();
+			for (int i = 0; i < lRootNode->GetChildCount(); i++)//nur einen knochen machen
 			{
-			PrintNode(root,lRootNode->GetChild(i), -1);
-			}			
+				PrintNode(root, lRootNode->GetChild(i), -1);
+			}
+		}
 	}
 
 	cout << "----------------------------------------------------------------------------------------------------" << endl;

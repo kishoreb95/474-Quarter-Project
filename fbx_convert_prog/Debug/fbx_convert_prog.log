@@ -1,23 +1,44 @@
-﻿  main.cpp
+﻿  fbx_convert.cpp
 c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(64): warning C4018: '<': signed/unsigned mismatch
 c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(66): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(77): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(81): warning C4018: '>': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(101): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(111): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(142): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(155): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(208): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(222): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(238): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(244): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(251): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(288): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(136): note: see declaration of 'strcpy'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(432): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(78): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(82): warning C4018: '>': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(103): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(113): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(145): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(158): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(211): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(226): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(242): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(248): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(258): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(90): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(91): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(92): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(105): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(106): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(107): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(109): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(110): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(111): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(112): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(164): warning C4244: 'initializing': conversion from 'fbxsdk::FbxLongLong' to 'int', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(184): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(185): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(186): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(193): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(194): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(195): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(199): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(200): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(201): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(202): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(207): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(208): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(209): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(264): warning C4244: 'initializing': conversion from 'fbxsdk::FbxLongLong' to 'int', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(243): warning C4101: 'i': unreferenced local variable
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(287): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.exe
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.pdb (Full PDB)

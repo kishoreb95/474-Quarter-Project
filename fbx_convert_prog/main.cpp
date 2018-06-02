@@ -21,8 +21,8 @@ using namespace glm;
 shared_ptr<Shape> shape;
 shared_ptr<Shape> plane;
 mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t);
-string currentAnim = "walk";
-string nextAnim = "walk";
+string currentAnim = "idle";
+string nextAnim = "idle";
 float animationTransition = 0.0f;
 
 float char_angle = radians(90.0f);
@@ -132,19 +132,26 @@ public:
 		}
 		if (key == GLFW_KEY_A && action == GLFW_PRESS)
 		{
-			mycam.a = 1;
+			//mycam.a = 1;
+         char_forward = true;
+         
 		}
-		if (key == GLFW_KEY_A && action == GLFW_RELEASE)
+		if (key == GLFW_KEY_A && action == GLFW_RELEASE) // need to switch directions
 		{
-			mycam.a = 0;
+			//mycam.a = 0;
+         char_forward = false;
 		}
 		if (key == GLFW_KEY_D && action == GLFW_PRESS)
 		{
-			mycam.d = 1;
+			//mycam.d = 1;
+         char_backward = true;
+         nextAnim = "walk";
 		}
 		if (key == GLFW_KEY_D && action == GLFW_RELEASE)
 		{
-			mycam.d = 0;
+			//mycam.d = 0;
+         char_backward = false;
+         nextAnim = "idle";
 		}
 		if (key == GLFW_KEY_UP && action == GLFW_PRESS) //move character forward
 		{
@@ -165,11 +172,11 @@ public:
 
 		if (key == GLFW_KEY_O && action == GLFW_PRESS) //Walk
 		{
-			nextAnim = "walk";
+			nextAnim = "idle";
 		}
 		if (key == GLFW_KEY_P && action == GLFW_PRESS) //Run
 		{
-			nextAnim = "run";
+			nextAnim = "punch"; // add punch animation
 		}
 
 
@@ -217,10 +224,12 @@ public:
 			animmat[ii] = mat4(1);
 		
 		//Load in animations
-		readtobone("walk.fbx",&all_animation,&root, "walk");
-		readtobone("run.fbx", &all_animation, &root, "run");
-		root->set_animations(&all_animation,animmat,animmatsize);
+		readtobone("Idle.fbx",&all_animation,&root, "idle");
+		readtobone("Walking.fbx", &all_animation, &root, "walk");
+     
+     // readtobone("Walking.fbx", &all_animation, &root, "walkback"); // testing
 		
+      root->set_animations(&all_animation, animmat, animmatsize);
 			
 		// Initialize mesh.
 		shape = make_shared<Shape>();
@@ -377,8 +386,11 @@ public:
 			totaltime_untilframe_ms = 0;
 			frame += 1;
 		}
-		if (currentAnim == nextAnim)
-			root->play_animation(frame, currentAnim);	//name of current animation	
+      if (currentAnim == nextAnim)
+      {
+         printf("1");
+         root->play_animation(frame, currentAnim);	//name of current animation	
+      }
 		else
 		{
 			root->play_animation_mix(frame, currentAnim, nextAnim);
@@ -395,7 +407,7 @@ public:
 		}
 
 		glm::mat4 char_rotate = glm::rotate(glm::mat4(1.0f), char_angle, vec3(0, 1, 0));
-		char_direction = vec4(0, 0, 0.25f, 0) * char_rotate;
+		char_direction = vec4(0, 0, 0.01f, 0) * char_rotate;
 		if (char_forward)
 		{
 			char_pos.z += char_direction.z;

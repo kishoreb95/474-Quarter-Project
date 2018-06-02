@@ -74,6 +74,7 @@ public:
 	// searches for the animation and sets the animation matrix element to the recent matrix gained from the keyframe
 	void play_animation(int keyframenumber, string animationname)
 		{
+     // printf("%s\n", name);
 		for (int i = 0; i < animation.size(); i++)
 			if (animation[i]->name == animationname)
 				{
@@ -82,7 +83,8 @@ public:
 					{
 					quat q = animation[i]->keyframes[keyframenumber].quaternion;
 					vec3 tr = animation[i]->keyframes[keyframenumber].translation; 
-					if (name == "Humanoid:Hips")
+               
+					if (name == "Hips")
 						tr = vec3(0, 0, 0);
 					mat4 M = mat4(q);
 					mat4 T = translate(mat4(1), tr);
@@ -111,6 +113,7 @@ public:
 		for (int i = 0; i < animation.size(); i++)
 			if (animation[i]->name == animationname)
 			{
+
 				keyframenumber = keyframenumber % (animation[i]->keyframes.size() - 1);
 				nextkeyframe = (keyframenumber + 1) % (animation[i]->keyframes.size() - 1);
 				quat q1, q2;
@@ -125,7 +128,7 @@ public:
 
 				//quat q = glm::mix(q1, q2, mix);
 				quat q = quaterpolate(animation[i], keyframenumber, mix);
-				if (name != "Humanoid:Hips")
+				if (name != "Hips")
 					tr = glm::mix(t1, t2, mix);
 
 				mat4 M = mat4(q);
@@ -188,7 +191,7 @@ public:
 				//Calculate how far we are between the two animation
 				mix = (keyframenumber + framemix) / float(size - 1) * 5.0f - 3.5f;
 				quat q = glm::mix(q1, q2, mix);
-				if (name != "Humanoid:Hips") //The hips are default vec3(0,0,0)
+				if (name != "Hips") //The hips are default vec3(0,0,0)
 					tr = glm::mix(t1, t2, mix);
 
 				mat4 M = mat4(q);
@@ -210,7 +213,8 @@ public:
 			kids[i]->play_animation_mix(keyframepos, anim1, anim2);
 		}
 		//Tell the caller that we have finished the animation transition
-		if (name == "Humanoid:Hips" && mix >= 0.99f)
+     // printf("%s", name.c_str());
+		if (name == "Hips" && mix >= 0.99f)
 		{
 			anim1 = anim2;
 		}
@@ -239,12 +243,15 @@ public:
 			kids[i]->write_to_VBOs(vpos, vnorm, imat);
 		}
 	//searches for the correct animations as well as sets the correct element from the animation matrix array
-	void set_animations(all_animations *all_anim,mat4 *matrices,int &animsize)
-		{
-		for (int ii = 0; ii < all_anim->animations.size(); ii++)
-			if (all_anim->animations[ii].bone == name)
-				animation.push_back(&all_anim->animations[ii]);
-
+   void set_animations(all_animations *all_anim, mat4 *matrices, int &animsize)
+   {
+      for (int ii = 0; ii < all_anim->animations.size(); ii++)
+      {
+      
+      printf("%s", name.c_str());
+      if (all_anim->animations[ii].bone == name)
+         animation.push_back(&all_anim->animations[ii]);
+      }
 		mat = &matrices[index];
 		animsize++;
 

@@ -247,8 +247,6 @@ public:
    {
       for (int ii = 0; ii < all_anim->animations.size(); ii++)
       {
-      
-      printf("%s", name.c_str());
       if (all_anim->animations[ii].bone == name)
          animation.push_back(&all_anim->animations[ii]);
       }

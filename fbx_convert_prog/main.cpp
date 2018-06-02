@@ -135,12 +135,14 @@ public:
 		{
 			//mycam.a = 1;
          char_forward = true;
+         nextAnim = "walkback";
          
 		}
 		if (key == GLFW_KEY_A && action == GLFW_RELEASE) // need to switch directions
 		{
 			//mycam.a = 0;
          char_forward = false;
+         nextAnim = "idle";
 		}
 		if (key == GLFW_KEY_D && action == GLFW_PRESS)
 		{
@@ -227,8 +229,8 @@ public:
 		//Load in animations
 		readtobone("Idle.fbx",&all_animation,&root, "idle");
 		readtobone("Walking.fbx", &all_animation, NULL, "walk");
-     
-      readtobone("Walking.fbx", &all_animation, NULL, "walkback"); // testing
+      readtobone("Walking Backwards.fbx", &all_animation, NULL, "walkback"); // testing
+      readtobone("Boxing.fbx", &all_animation, NULL, "punch");
 		
       root->set_animations(&all_animation, animmat, animmatsize);
 			
@@ -389,7 +391,6 @@ public:
 		}
       if (currentAnim == nextAnim)
       {
-         printf("1");
          root->play_animation(frame, currentAnim);	//name of current animation	
       }
 		else

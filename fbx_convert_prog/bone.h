@@ -66,6 +66,10 @@ public:
 		if (next + 1 < anim->keyframes.size())
 			next_next = next + 1;
 
+		if (keyframenumber <= 1)
+		{
+			return slerp(anim->keyframes[keyframenumber].quaternion, anim->keyframes[next].quaternion, mix);
+		}
 		quat s1 = inter(anim->keyframes[prev].quaternion, anim->keyframes[keyframenumber].quaternion, anim->keyframes[next].quaternion);
 		quat s2 = inter(anim->keyframes[keyframenumber].quaternion, anim->keyframes[next].quaternion, anim->keyframes[next_next].quaternion);
 		return squad(anim->keyframes[keyframenumber].quaternion, anim->keyframes[next].quaternion, s1, s2, mix);

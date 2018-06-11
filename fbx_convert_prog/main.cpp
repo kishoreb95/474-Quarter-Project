@@ -17,11 +17,11 @@ based on CPE/CSC 471 Lab base code Wood/Dunn/Eckhardt
 #include "Line.h"
 #include "bone.h"
 #include "tiny_obj_loader.h"
+#include "particle.h"
 using namespace std;
 using namespace glm;
 shared_ptr<Shape> shape;
 shared_ptr<Shape> plane;
-mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t);
 string currentAnim = "idle";
 string nextAnim = "idle";
 float animationTransition = 0.0f;
@@ -37,6 +37,7 @@ vec3 char_direction = vec3(0, 0, 0);
 
 vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
+shared_ptr<ParticleGenerator> particles;
 
 double get_last_elapsed_time()
 {
@@ -92,7 +93,7 @@ public:
 	WindowManager * windowManager = nullptr;
 
 	// Our shader program
-	std::shared_ptr<Program> prog, psky, pplane;
+	std::shared_ptr<Program> prog, psky, pparticle, pfloor;
 
 	// Contains vertex information for OpenGL
 	GLuint VertexArrayID;
@@ -223,6 +224,7 @@ public:
 	all_animations all_animation;
 	void initGeom(const std::string& resourceDirectory)
 	{
+
 		for (int ii = 0; ii < 200; ii++)
 			animmat[ii] = mat4(1);
 		
@@ -322,7 +324,7 @@ public:
 	void init(const std::string& resourceDirectory)
 	{
 		GLSL::checkVersion();
-
+		const string current = ".";
 		// Set background color.
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		// Enable z-buffer test.
@@ -360,7 +362,37 @@ public:
 		psky->addUniform("M");
 		psky->addAttribute("vertPos");
 		psky->addAttribute("vertTex");
-		prog->addAttribute("vertNor");
+		psky->addAttribute("vertNor");
+
+
+		pfloor = std::make_shared<Program>();
+		pfloor->setVerbose(true);
+		pfloor->setShaderNames(current + "/floor_vertex.glsl", resourceDirectory + "/shader_fragment.glsl");
+		if (!pfloor->init())
+		{
+			std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
+			exit(1);
+		}
+		pfloor->addUniform("P");
+		pfloor->addUniform("V");
+		pfloor->addUniform("M");
+		pfloor->addUniform("campos");
+		pfloor->addAttribute("vertPos");
+		pfloor->addAttribute("vertNor");
+
+		pparticle = std::make_shared<Program>();
+		pparticle->setVerbose(true);
+		pparticle->setShaderNames(current + "/particle_vertex.glsl", current + "/particle_fragment.glsl");
+		if (!pparticle->init())
+		{
+			std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
+			exit(1);
+		}
+		pparticle->addUniform("P");
+		pparticle->addUniform("offset");
+		pparticle->addUniform("color");
+		pparticle->addUniform("sprite");
+		pparticle->addAttribute("vertex");
 	}
 
 

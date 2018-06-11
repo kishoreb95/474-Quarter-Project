@@ -42,6 +42,9 @@
     <ClCompile Include="Shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Program.h">
@@ -71,6 +74,9 @@
     <ClInclude Include="bone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\shader_vertex.glsl">
@@ -85,5 +91,12 @@
     <None Include="..\resources\skyvertex.glsl">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="particle_fragment.glsl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="particle_vertex.glsl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="floor_vertex.glsl" />
   </ItemGroup>
 </Project>

@@ -12,7 +12,7 @@ uniform float Z;
 
 void main()
 {
-    float scale = 0.05f;
+    float scale = 0.05f / .005;
     TexCoords = vertex.zw;
     ParticleColor = color;
     gl_Position = P * M * vec4((vertex.xy * scale) + offset, 0.0f, 1.0);

@@ -16,6 +16,7 @@ struct Particle {
 	float life;
 
 	Particle() : pos(0.0f), vel(0.0f), color(1.0f, 0.0f, 0.0f, 1.0f), life(0.0f) { }
+	Particle(vec4 col) : pos(0.0f), vel(0.0f), color(col), life(0.0f) { }
 };
 
 // Container for rendering a large number of 
@@ -31,7 +32,8 @@ public:
 	// Render all particles
 	void Draw();
 	std::vector<Particle> particles;
-	int num = 500;
+	int num = 250;
+	vec4 color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 private:
 	int lastUsedParticle = 0;
 	// Initializes buffer and vertex attributes

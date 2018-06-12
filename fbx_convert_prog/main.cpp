@@ -57,6 +57,7 @@ vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
 mat4 bone::headModel = mat4(1.0f);
 ParticleGenerator* particles;
+ParticleGenerator* particles2;
 
 
 double get_last_elapsed_time()
@@ -122,6 +123,7 @@ public:
 	// Data necessary to give our box to OpenGL
 	GLuint VertexBufferID, VertexBufferIDimat, VertexNormDBox, VertexTexBox, IndexBufferIDBox, NormalBufferID;
    GLuint VertexBufferIDP2, VertexBufferIDimatP2, VertexNormDBoxP2, VertexTexBoxP2, IndexBufferIDBoxP2, NormalBufferIDP2;
+   GLuint VAOFloor, VertexFloor, NormalFloor;
 
 	//texture data
 	GLuint Texture;
@@ -383,7 +385,28 @@ public:
 		bone::cylinder = shapes[0].mesh.positions;
 		bone::cylinder_normals = shapes[0].mesh.normals;
 
-		//generate the VAO
+		//Floor setup
+		glGenVertexArrays(1, &VAOFloor);
+		glBindVertexArray(VAOFloor);
+
+		glGenBuffers(1, &VertexFloor);
+		glBindBuffer(GL_ARRAY_BUFFER, VertexFloor); //Floor vertices
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*bone::cylinder.size(), bone::cylinder.data(), GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glGenBuffers(1, &NormalFloor);
+		glBindBuffer(GL_ARRAY_BUFFER, NormalFloor); //Floor normals
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*bone::cylinder_normals.size(), bone::cylinder_normals.data(), GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glBindVertexArray(0);
+
+		
+		//generate the player 1 VAO
 		glGenVertexArrays(1, &VertexArrayID);
 
 		//VAO block
@@ -593,6 +616,9 @@ public:
 		pparticle->addAttribute("vertex");
 
 		particles = new ParticleGenerator(pparticle);
+		particles->color = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		particles2 = new ParticleGenerator(pparticle);
+		particles2->color = vec4(0.0f, 0.0f, 1.0f, 1.0f);
 	}
 
 
@@ -827,7 +853,7 @@ public:
 
       glm::mat4 TransZP2 = glm::translate(glm::mat4(1.0f), char_posP2);
       glm::mat4 SP2 = glm::scale(glm::mat4(1.0f), glm::vec3(0.005f, 0.005f, 0.005f));
-      M = TransZP2 * char_rotateP2 *  SP2;
+      M = TransZP2 * char_rotateP2 * S;
 
       glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
       glUniformMatrix4fv(prog->getUniform("Manim"), 200, GL_FALSE, &animmatP2[0][0][0]);
@@ -835,11 +861,28 @@ public:
       glBindVertexArray(1);
       prog->unbind();
 
-		particles->Update(vec2(char_pos.x, char_pos.y), 2);
+	  /*pfloor->bind();
+	  //send the matrices to the shaders
+	  glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+	  glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+	  glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
+	  glBindVertexArray(VAOFloor);
+
+	  glm::mat4 Trans = glm::translate(glm::mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
+	  glm::mat4 SP2 = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 10.0f, 0.005f));
+	  M = TransZP2 * char_rotateP2 * S;
+
+	  glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+	  glDrawArrays(GL_TRIANGLES, 0, size_stick);
+	  glBindVertexArray(1);
+	  pfloor->unbind();*/
+
+		particles->Update(vec2(char_pos.x, char_pos.y), 4);
+		particles2->Update(vec2(char_posP2.x, char_posP2.y), 4);
 		// Draw the particles using GLSL.
 		pparticle->bind();
 		glm::mat4 head = glm::translate(glm::mat4(1.0f), vec3(0.05f, 0.4f, 0.0f));
-		M = V * TransZ * head;
+		M = V * TransZ * head * S;
 		glUniformMatrix4fv(pparticle->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(pparticle->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniform1f(pparticle->getUniform("Z"), char_pos.z);
@@ -847,6 +890,12 @@ public:
 		glBindTexture(GL_TEXTURE_2D, Texture);
 		glDisable(GL_DEPTH_TEST);
 		particles->Draw();			//render!!!!!!!
+
+		glm::mat4 head2 = glm::translate(glm::mat4(1.0f), vec3(-0.05f, 0.4f, 0.0f));
+		M = V * TransZP2 * head2 * S;
+		glUniformMatrix4fv(pparticle->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		glUniform1f(pparticle->getUniform("Z"), char_posP2.z);
+		particles2->Draw();			//render p2
 		glEnable(GL_DEPTH_TEST);
 		pparticle->unbind();
 	}

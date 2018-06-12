@@ -40,8 +40,8 @@ void ParticleGenerator::respawnParticle(Particle &particle, vec2 pos, glm::vec2 
 {
 	vec2 random = vec2( (rand() % 100 - 50) / 10.0f, (rand() % 100 - 50) / 10.0f);
 	float bright = 0.5 + ((rand() % 100) / 100.0f);
-	particle.pos = pos + (0.01f * random) + offset;
-	particle.color = vec4(1.0f, 1.0f, 1.0f, 1.0f);// glm::vec4(bright, bright, bright, 1.0f);
+	particle.pos = pos + (2.5f * random) + offset;
+	particle.color = color;// glm::vec4(bright, bright, bright, 1.0f);
 	particle.life = 1.0f;
 	particle.vel = 0.00025f * random + offset;
 }
@@ -73,7 +73,6 @@ void ParticleGenerator::Draw()
 	// Use additive blending to give it a 'glow' effect
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glBindVertexArray(VAO);
-	program->bind();
 	for (Particle particle : this->particles)
 	{
 		if (particle.life > 0.0f)
@@ -87,7 +86,6 @@ void ParticleGenerator::Draw()
 		}
 	}
 	// Don't forget to reset to default blending mode
-	program->unbind();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 

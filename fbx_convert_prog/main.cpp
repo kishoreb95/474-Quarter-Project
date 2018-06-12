@@ -24,19 +24,32 @@ shared_ptr<Shape> plane;
 mat4 linint_between_two_orientations(vec3 ez_aka_lookto_1, vec3 ey_aka_up_1, vec3 ez_aka_lookto_2, vec3 ey_aka_up_2, float t);
 string currentAnim = "idle";
 string nextAnim = "idle";
+string currentAnimP2 = "idle";
+string nextAnimP2 = "idle";
 float animationTransition = 0.0f;
-
+float animationTransitionP2 = 0.0f;
 float char_angle = radians(90.0f);
 bool left_turn = false;
 bool right_turn = false;
 bool char_forward = false;
 bool char_backward = false;
-
+float char_angleP2 = radians(-90.0f);
+bool left_turnP2 = false;
+bool right_turnP2 = false;
+bool char_forwardP2 = false;
+bool char_backwardP2 = false;
+bool char_left = false;
+bool char_right = false;
+bool char_leftP2 = false;
+bool char_rightP2 = false;
 vec3 char_pos = vec3(0, 0, -8);
+vec3 char_posP2 = vec3(0, 0, -6);
 vec3 char_direction = vec3(0, 0, 0);
+vec3 char_directionP2 = vec3(0, 0, 0);
 
 vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
+
 
 double get_last_elapsed_time()
 {
@@ -96,9 +109,10 @@ public:
 
 	// Contains vertex information for OpenGL
 	GLuint VertexArrayID;
-
+   GLuint VertexArrayIDP2;
 	// Data necessary to give our box to OpenGL
 	GLuint VertexBufferID, VertexBufferIDimat, VertexNormDBox, VertexTexBox, IndexBufferIDBox, NormalBufferID;
+   GLuint VertexBufferIDP2, VertexBufferIDimatP2, VertexNormDBoxP2, VertexTexBoxP2, IndexBufferIDBoxP2, NormalBufferIDP2;
 
 	//texture data
 	GLuint Texture;
@@ -108,6 +122,8 @@ public:
 	mat4 animmat[200];
 	int animmatsize=0;
 
+   mat4 animmatP2[200];
+   int animmatsizeP2 = 0;
 	void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	{
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -115,22 +131,7 @@ public:
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
 		
-		if (key == GLFW_KEY_W && action == GLFW_PRESS)
-		{
-			mycam.w = 1;
-		}
-		if (key == GLFW_KEY_W && action == GLFW_RELEASE)
-		{
-			mycam.w = 0;
-		}
-		if (key == GLFW_KEY_S && action == GLFW_PRESS)
-		{
-			mycam.s = 1;
-		}
-		if (key == GLFW_KEY_S && action == GLFW_RELEASE)
-		{
-			mycam.s = 0;
-		}
+		
 		if (key == GLFW_KEY_A && action == GLFW_PRESS)
 		{
 			//mycam.a = 1;
@@ -156,21 +157,50 @@ public:
          char_backward = false;
          nextAnim = "idle";
 		}
-		if (key == GLFW_KEY_UP && action == GLFW_PRESS) //move character forward
+      if (key == GLFW_KEY_W && action == GLFW_PRESS)
+      {
+         //mycam.d = 0;
+         char_left = true;
+         nextAnim = "idle"; // add strafe left
+      }
+      if (key == GLFW_KEY_W && action == GLFW_RELEASE)
+      {
+         //mycam.d = 0;
+         char_left = false;
+         nextAnim = "idle"; // add strafe left
+      }
+      if (key == GLFW_KEY_S && action == GLFW_PRESS)
+      {
+         //mycam.d = 0;
+         char_right = true;
+         nextAnim = "idle"; // add strafe left
+      }
+      if (key == GLFW_KEY_S && action == GLFW_RELEASE)
+      {
+         //mycam.d = 0;
+         char_right = false;
+         nextAnim = "idle"; // add strafe right animation
+      }
+		if (key == GLFW_KEY_UP && action == GLFW_PRESS) 
 		{
-			char_forward = true;
-		}
-		if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) //move character backward
-		{
-			char_backward = true;
+         char_rightP2 = true;
+         nextAnim = "idle";
 		}
 		if (key == GLFW_KEY_UP && action == GLFW_RELEASE) 
 		{
-			char_forward = false;
+         char_rightP2 = false;
+         nextAnim = "idle";
+		}
+		if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) 
+		{
+         char_leftP2 = true;
+         nextAnim = "idle";
 		}
 		if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) 
 		{
-			char_backward = false;
+         char_leftP2 = false;
+         nextAnim = "idle";
+			//char_backward = false;
 		}
 
 		if (key == GLFW_KEY_O && action == GLFW_PRESS) //Walk
@@ -179,26 +209,49 @@ public:
 		}
 		if (key == GLFW_KEY_P && action == GLFW_PRESS) //Run
 		{
+         currentAnim = "punch";
 			nextAnim = "punch"; // add punch animation
 		}
 
+      if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+      {
+         //mycam.a = 1;
+         char_forwardP2 = true;
+         nextAnimP2 = "walk";
 
-		if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) //Character rotates counterclockwise
-		{
-			left_turn = true;
-		}
-		if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE)
-		{
-			left_turn = false;
-		}
-		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) //Character rotates clockwise
-		{
-			right_turn = true;
-		}
-		if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
-		{
-			right_turn = false;
-		}
+      }
+      if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) // need to switch directions
+      {
+         //mycam.a = 0;
+         char_forwardP2 = false;
+         nextAnimP2 = "idle";
+      }
+      if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+      {
+         //mycam.d = 1;
+         char_backwardP2 = true;
+         nextAnimP2 = "walkback";
+      }
+      if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
+      {
+         //mycam.d = 0;
+         char_backwardP2 = false;
+         nextAnimP2 = "idle";
+      }
+      
+
+      if (key == GLFW_KEY_2 && action == GLFW_PRESS) //Walk
+      {
+         nextAnimP2 = "idle";
+      }
+      if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS) //Run
+      {
+         currentAnimP2 = "punch";
+         nextAnimP2 = "punch"; // add punch animation
+      }
+
+
+
 	}
 
 	// callback for the mouse when clicked move the triangle when helper functions
@@ -219,8 +272,10 @@ public:
 
 	/*Note that any gl calls must always happen after a GL state is initialized */
 	bone *root = NULL;
+   bone *rootP2 = NULL;
 	int size_stick = 0;
 	all_animations all_animation;
+   all_animations all_animationP2;
 	void initGeom(const std::string& resourceDirectory)
 	{
 		for (int ii = 0; ii < 200; ii++)
@@ -233,7 +288,14 @@ public:
       readtobone("Boxing.fbx", &all_animation, NULL, "punch");
 		
       root->set_animations(&all_animation, animmat, animmatsize);
-			
+      
+      readtobone("Idle.fbx", &all_animationP2, &rootP2, "idle");
+      readtobone("Walking.fbx", &all_animationP2, NULL, "walk");
+      readtobone("Walking Backwards.fbx", &all_animationP2, NULL, "walkback"); // testing
+      readtobone("Boxing.fbx", &all_animationP2, NULL, "punch");
+
+      rootP2->set_animations(&all_animation, animmatP2, animmatsizeP2);
+
 		// Initialize mesh.
 		shape = make_shared<Shape>();
 		shape->loadMesh(resourceDirectory + "/skybox.obj");
@@ -291,6 +353,56 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glBindVertexArray(0);
+
+
+
+      /*
+      
+         for character 2?
+      
+      
+      */
+
+      //generate the VAO
+      glGenVertexArrays(1, &VertexArrayIDP2);
+
+      //VAO block
+      glBindVertexArray(VertexArrayIDP2);
+
+      //generate vertex buffer to hand off to OGL
+      glGenBuffers(1, &VertexBufferIDP2);
+      //Vertex buffer setting
+      glBindBuffer(GL_ARRAY_BUFFER, VertexBufferIDP2);
+      vector<vec3> posP2, normP2;
+      vector<unsigned int> imatP2;
+      rootP2->write_to_VBOs(posP2, normP2, imatP2);
+      size_stick = pos.size();
+      //actually memcopy the data - only do this once
+      glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*posP2.size(), posP2.data(), GL_DYNAMIC_DRAW);
+      glEnableVertexAttribArray(0);
+      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+      glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+      glGenBuffers(1, &VertexBufferIDimatP2);
+      //ID buffer setting
+      glBindBuffer(GL_ARRAY_BUFFER, VertexBufferIDimatP2);
+      glBufferData(GL_ARRAY_BUFFER, sizeof(uint)*imatP2.size(), imatP2.data(), GL_DYNAMIC_DRAW);
+      glEnableVertexAttribArray(1);
+      glVertexAttribIPointer(1, 1, GL_UNSIGNED_INT, 0, (void*)0);
+      glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+      glGenBuffers(1, &NormalBufferIDP2);
+      //Normal buffer setting
+      glBindBuffer(GL_ARRAY_BUFFER, NormalBufferIDP2);
+      glBufferData(GL_ARRAY_BUFFER, normP2.size() * sizeof(vec3), normP2.data(), GL_STATIC_DRAW);
+      glEnableVertexAttribArray(2);
+      glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+      glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+      glBindVertexArray(1);
+
+
+
 
 		int width, height, channels;
 		char filepath[1000];
@@ -420,6 +532,65 @@ public:
 			char_pos.z -= char_direction.z;
 			char_pos.x -= char_direction.x;
 		}
+      else if (char_left)
+      {
+         char_pos.z -= 0.1;
+        
+      }
+      else if (char_right)
+      {
+         char_pos.z += 0.1;
+      }
+
+
+      //animation frame system for player 2
+      static double totaltime_untilframe_msP2 = 0;
+      totaltime_untilframe_msP2 += frametime * 1000.0;
+      static float frameP2 = 0;
+      if (totaltime_untilframe_msP2 >= anim_step_width_ms) // maybe split this too lets see if it works
+      {
+         totaltime_untilframe_msP2 = 0;
+         frameP2 += 1;
+      }
+      if (currentAnimP2 == nextAnimP2)
+      {
+         rootP2->play_animation(frameP2, currentAnimP2);	//name of current animation	
+      }
+      else
+      {
+         rootP2->play_animation_mix(frameP2, currentAnimP2, nextAnimP2);
+         if (currentAnimP2 == nextAnimP2) frameP2 = 0;
+      }
+
+      /*if (left_turn)
+      {
+         char_angle += 0.1f;
+      }
+      else if (right_turn)
+      {
+         char_angle -= 0.1f;
+      }*/ //potential dead code
+
+      glm::mat4 char_rotateP2 = glm::rotate(glm::mat4(1.0f), char_angleP2, vec3(0, 1, 0));
+      char_directionP2 = vec4(0, 0, 0.01f, 0) * char_rotateP2;
+      if (char_forwardP2)
+      {
+         char_posP2.z -= char_directionP2.z;
+         char_posP2.x -= char_directionP2.x;
+      }
+      else if (char_backwardP2)
+      {
+         char_posP2.z += char_directionP2.z;
+         char_posP2.x += char_directionP2.x;
+      }
+      else if (char_leftP2)
+      {
+         char_posP2.z += 0.1;
+      }
+      else if (char_rightP2)
+      {
+         char_posP2.z -= 0.1;
+      }
 
 		// Get current frame buffer size.
 		int width, height;
@@ -478,6 +649,24 @@ public:
 		glDrawArrays(GL_TRIANGLES, 0, size_stick);
 		glBindVertexArray(0);		
 		prog->unbind();
+
+      prog->bind();
+      //send the matrices to the shaders
+      glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+      glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+      glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+      glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
+      glBindVertexArray(VertexArrayIDP2);
+
+      glm::mat4 TransZP2 = glm::translate(glm::mat4(1.0f), char_posP2);
+      glm::mat4 SP2 = glm::scale(glm::mat4(1.0f), glm::vec3(0.005f, 0.005f, 0.005f));
+      M = TransZP2 * char_rotateP2 *  SP2;
+
+      glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+      glUniformMatrix4fv(prog->getUniform("Manim"), 200, GL_FALSE, &animmatP2[0][0][0]);
+      glDrawArrays(GL_TRIANGLES, 0, size_stick);
+      glBindVertexArray(1);
+      prog->unbind();
 	}
 
 };

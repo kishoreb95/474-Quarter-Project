@@ -151,7 +151,7 @@ public:
 	{
 		animation_per_bone * current = NULL;
 		animation_per_bone * next = NULL;
-		float mix;
+		float mix = 0.99f;
 		int keyframenumber = (int)keyframepos;
 		float framemix = keyframepos - keyframenumber;
 		int size;
@@ -214,6 +214,7 @@ public:
 		}
 		//Tell the caller that we have finished the animation transition
      // printf("%s", name.c_str());
+      
 		if (name == "Hips" && mix >= 0.99f)
 		{
 			anim1 = anim2;

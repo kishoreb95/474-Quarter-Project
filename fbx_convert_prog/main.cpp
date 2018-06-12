@@ -29,6 +29,8 @@ string nextAnimP2 = "idle";
 float animationTransition = 0.0f;
 float animationTransitionP2 = 0.0f;
 float char_angle = radians(90.0f);
+bool punching = false;
+bool punchingP2 = false;
 bool left_turn = false;
 bool right_turn = false;
 bool char_forward = false;
@@ -42,11 +44,15 @@ bool char_left = false;
 bool char_right = false;
 bool char_leftP2 = false;
 bool char_rightP2 = false;
-vec3 char_pos = vec3(0, 0, -8);
-vec3 char_posP2 = vec3(0, 0, -6);
+vec3 char_pos = vec3(-3, 0, -5);
+vec3 char_posP2 = vec3(3, 0, -5);
 vec3 char_direction = vec3(0, 0, 0);
 vec3 char_directionP2 = vec3(0, 0, 0);
-
+bool restart = false;
+float frame = 0;
+float frameP2 = 0;
+float health = 100;
+float healthP2 = 100;
 vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
 
@@ -67,7 +73,8 @@ public:
 	camera()
 	{
 		w = a = s = d = 0;
-		pos = rot = glm::vec3(0, 0, 0);
+      pos = glm::vec3(0, -1, 0);
+		rot = glm::vec3(3.14159/6, 0, 0);
 	}
 	glm::mat4 process(double ftime)
 	{
@@ -137,11 +144,34 @@ public:
 			//mycam.a = 1;
          char_forward = true;
          nextAnim = "walkback";
+         currentAnim = "walkback";
+         
          
 		}
+      if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
+      {
+         health = 100;
+         healthP2 = 100;
+         restart = true;
+         
+      }
+      if (key == GLFW_KEY_ENTER && action == GLFW_RELEASE)
+      {
+       
+
+      }
+      if (key != GLFW_KEY_P)
+      {
+         punching = false;
+      }
+      if (key != GLFW_KEY_KP_3)
+      {
+         punchingP2 = false;
+      }
 		if (key == GLFW_KEY_A && action == GLFW_RELEASE) // need to switch directions
 		{
 			//mycam.a = 0;
+         
          char_forward = false;
          nextAnim = "idle";
 		}
@@ -150,6 +180,7 @@ public:
 			//mycam.d = 1;
          char_backward = true;
          nextAnim = "walk";
+         currentAnim = "walk";
 		}
 		if (key == GLFW_KEY_D && action == GLFW_RELEASE)
 		{
@@ -161,7 +192,7 @@ public:
       {
          //mycam.d = 0;
          char_left = true;
-         nextAnim = "idle"; // add strafe left
+         nextAnim = "left"; // add strafe left
       }
       if (key == GLFW_KEY_W && action == GLFW_RELEASE)
       {
@@ -173,7 +204,7 @@ public:
       {
          //mycam.d = 0;
          char_right = true;
-         nextAnim = "idle"; // add strafe left
+         nextAnim = "right"; // add strafe left
       }
       if (key == GLFW_KEY_S && action == GLFW_RELEASE)
       {
@@ -184,7 +215,7 @@ public:
 		if (key == GLFW_KEY_UP && action == GLFW_PRESS) 
 		{
          char_rightP2 = true;
-         nextAnim = "idle";
+         nextAnim = "right";
 		}
 		if (key == GLFW_KEY_UP && action == GLFW_RELEASE) 
 		{
@@ -194,7 +225,7 @@ public:
 		if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) 
 		{
          char_leftP2 = true;
-         nextAnim = "idle";
+         nextAnim = "left";
 		}
 		if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) 
 		{
@@ -205,13 +236,31 @@ public:
 
 		if (key == GLFW_KEY_O && action == GLFW_PRESS) //Walk
 		{
-			nextAnim = "idle";
+         
+         nextAnim = "magic";
+         frame = 0;
+         
 		}
+      if (key == GLFW_KEY_O && action == GLFW_RELEASE) //Walk
+      {
+         
+         nextAnim = "idle";
+
+      }
 		if (key == GLFW_KEY_P && action == GLFW_PRESS) //Run
-		{
+
+      {
+         mycam.rot.x += 0.1f;
+         punching = true;
          currentAnim = "punch";
 			nextAnim = "punch"; // add punch animation
+         frame = 110;
 		}
+
+      if (key == GLFW_KEY_P && action == GLFW_RELEASE)
+      {
+         nextAnim = "idle";
+      }
 
       if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
       {
@@ -240,14 +289,23 @@ public:
       }
       
 
-      if (key == GLFW_KEY_2 && action == GLFW_PRESS) //Walk
+      if (key == GLFW_KEY_KP_2 && action == GLFW_PRESS) //Walk
       {
-         nextAnimP2 = "idle";
+         nextAnimP2 = "magic";
+         
+         frameP2 = 0;
+
       }
       if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS) //Run
       {
+         punchingP2 = true;
          currentAnimP2 = "punch";
          nextAnimP2 = "punch"; // add punch animation
+         frameP2 = 110;
+      }
+      if (key == GLFW_KEY_KP_3 && action == GLFW_RELEASE) //Run
+      {
+         nextAnimP2 = "idle"; // add punch animation
       }
 
 
@@ -286,13 +344,19 @@ public:
 		readtobone("Walking.fbx", &all_animation, NULL, "walk");
       readtobone("Walking Backwards.fbx", &all_animation, NULL, "walkback"); // testing
       readtobone("Boxing.fbx", &all_animation, NULL, "punch");
-		
+      readtobone("Fireball.fbx", &all_animation, NULL, "magic");
+      readtobone("Strafe Left.fbx", &all_animation, NULL, "left");
+      readtobone("Strafe Right.fbx", &all_animation, NULL, "right");
+
       root->set_animations(&all_animation, animmat, animmatsize);
       
       readtobone("Idle.fbx", &all_animationP2, &rootP2, "idle");
       readtobone("Walking.fbx", &all_animationP2, NULL, "walk");
       readtobone("Walking Backwards.fbx", &all_animationP2, NULL, "walkback"); // testing
       readtobone("Boxing.fbx", &all_animationP2, NULL, "punch");
+      readtobone("Fireball.fbx", &all_animationP2, NULL, "magic");
+      readtobone("Strafe Left.fbx", &all_animationP2, NULL, "left");
+      readtobone("Strafe Right.fbx", &all_animationP2, NULL, "right");
 
       rootP2->set_animations(&all_animation, animmatP2, animmatsizeP2);
 
@@ -492,10 +556,55 @@ public:
 		totaltime_ms += frametime*1000.0;
 		static double totaltime_untilframe_ms = 0;
 		totaltime_untilframe_ms += frametime*1000.0;
-
+      
 		//animation frame system
 		int anim_step_width_ms = 8490 / 204;
-		static float frame = 0;
+      if(health < 0 || healthP2 < 0)
+      {
+         printf("Game over. Player ");
+         if (health < 0)
+         {
+            printf("2 ");
+         }
+         else
+         {
+            printf("1 ");
+         }
+         printf("has won!");
+         printf("\nWait a few seconds to play again\n");
+         int i = 0;
+         while (!restart)
+         {
+            if (i > 10)
+            {
+               restart = true;
+               health = 100;
+               healthP2 = 100;
+               char_pos = vec3(-3, 0, -5);
+               char_posP2 = vec3(3, 0, -5);
+           }
+            i++;
+         }
+
+      }
+      if (punching && frame > 120)
+      {
+         if ((char_posP2.x - char_pos.x) < 0.6 && (abs(char_posP2.z - char_pos.z) < 0.3))
+         {
+            punching = false;
+            healthP2 -= 5;
+            printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+         }
+      }
+      if (punchingP2 && frameP2 > 120)
+      {
+         if ((char_posP2.x - char_pos.x ) < 0.6 && (abs(char_posP2.z - char_pos.z) < 0.3))
+         {
+            punchingP2 = false;
+            health -= 5;
+            printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+         }
+      }
 		if (totaltime_untilframe_ms >= anim_step_width_ms)
 		{
 			totaltime_untilframe_ms = 0;
@@ -534,19 +643,19 @@ public:
 		}
       else if (char_left)
       {
-         char_pos.z -= 0.1;
+         char_pos.z -= 0.035;
         
       }
       else if (char_right)
       {
-         char_pos.z += 0.1;
+         char_pos.z += 0.035;
       }
 
 
       //animation frame system for player 2
       static double totaltime_untilframe_msP2 = 0;
       totaltime_untilframe_msP2 += frametime * 1000.0;
-      static float frameP2 = 0;
+     
       if (totaltime_untilframe_msP2 >= anim_step_width_ms) // maybe split this too lets see if it works
       {
          totaltime_untilframe_msP2 = 0;
@@ -585,11 +694,11 @@ public:
       }
       else if (char_leftP2)
       {
-         char_posP2.z += 0.1;
+         char_posP2.z += 0.035;
       }
       else if (char_rightP2)
       {
-         char_posP2.z -= 0.1;
+         char_posP2.z -= 0.035;
       }
 
 		// Get current frame buffer size.

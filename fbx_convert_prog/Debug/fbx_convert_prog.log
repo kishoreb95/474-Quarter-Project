@@ -1,37 +1,7 @@
-﻿  main.cpp
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(64): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(66): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(82): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(86): warning C4018: '>': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(107): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(117): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(149): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(162): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(215): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(230): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(246): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(252): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(260): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(302): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(136): note: see declaration of 'strcpy'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(478): warning C4305: 'initializing': truncation from 'double' to 'float'
-glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(context.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(win32_tls.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_tls.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
-glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+﻿  Particle.cpp
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\particle.cpp(18): warning C4018: '<': signed/unsigned mismatch
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\particle.cpp(42): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\particle.cpp(65): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\particle.cpp(119): warning C4018: '<': signed/unsigned mismatch
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.exe
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.pdb (Full PDB)

@@ -38,6 +38,7 @@ public:
 
 	static vector<float> cylinder;
 	static vector<float> cylinder_normals;
+	static mat4 headModel;
 
 	vector<animation_per_bone*> animation;	//all the animations of the bone
 	string name;
@@ -78,6 +79,7 @@ public:
 	// searches for the animation and sets the animation matrix element to the recent matrix gained from the keyframe
 	void play_animation(int keyframenumber, string animationname)
 		{
+		mat4 T;
      // printf("%s\n", name);
 		for (int i = 0; i < animation.size(); i++)
 			if (animation[i]->name == animationname)
@@ -91,7 +93,7 @@ public:
 					if (name == "Hips")
 						tr = vec3(0, 0, 0);
 					mat4 M = mat4(q);
-					mat4 T = translate(mat4(1), tr);
+					T = translate(mat4(1), tr);
 					M = T * M;
 					if (mat)
 						{
@@ -106,11 +108,13 @@ public:
 				}
 		for (int i = 0; i < kids.size(); i++)
 			kids[i]->play_animation(keyframenumber,animationname);
+		T = mat4(1.0f);
 		}
 
 	//basically it takes floats for indices, so we can go between indices (1.5 is a .5 mix between 1 and 2)
 	void play_animation(float keyframepos, string animationname) 
 	{
+		mat4 T;
 		int nextkeyframe;
 		int keyframenumber = (int)keyframepos;
 		float mix = keyframepos - keyframenumber;
@@ -136,7 +140,7 @@ public:
 					tr = glm::mix(t1, t2, mix);
 
 				mat4 M = mat4(q);
-				mat4 T = translate(mat4(1), tr);
+				T = translate(mat4(1), tr);
 				M = T * M;
 				if (mat)
 				{

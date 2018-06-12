@@ -5,13 +5,15 @@ out vec2 TexCoords;
 out vec4 ParticleColor;
 
 uniform mat4 P;
+uniform mat4 M;
 uniform vec2 offset;
 uniform vec4 color;
+uniform float Z;
 
 void main()
 {
-    float scale = 10.0f;
+    float scale = 0.05f;
     TexCoords = vertex.zw;
     ParticleColor = color;
-    gl_Position = P * vec4((vertex.xy * scale) + offset, 0.0, 1.0);
+    gl_Position = P * M * vec4((vertex.xy * scale) + offset, 0.0f, 1.0);
 }

@@ -15,7 +15,7 @@ struct Particle {
 	vec4 color;
 	float life;
 
-	Particle() : pos(0.0f), vel(0.0f), color(1.0f), life(0.0f) { }
+	Particle() : pos(0.0f), vel(0.0f), color(1.0f, 0.0f, 0.0f, 1.0f), life(0.0f) { }
 };
 
 // Container for rendering a large number of 
@@ -27,7 +27,7 @@ public:
 	// Constructor
 	ParticleGenerator(std::shared_ptr<Program> prog);
 	// Update all particles
-	void Update(float dt, vec2 pos, int newParticles, vec2 offset = vec2(0.0f, 0.0f));
+	void Update(vec2 pos, int newParticles, float dt = 0.1f, vec2 offset = vec2(0.0f, 0.0f));
 	// Render all particles
 	void Draw();
 	std::vector<Particle> particles;

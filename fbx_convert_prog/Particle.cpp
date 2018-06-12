@@ -1,4 +1,5 @@
 #include "GLSL.h"
+#include <iostream>
 #include <glad/glad.h>
 #include "Program.h"
 #include "Particle.h"
@@ -39,13 +40,13 @@ void ParticleGenerator::respawnParticle(Particle &particle, vec2 pos, glm::vec2 
 {
 	vec2 random = vec2( (rand() % 100 - 50) / 10.0f, (rand() % 100 - 50) / 10.0f);
 	float bright = 0.5 + ((rand() % 100) / 100.0f);
-	particle.pos = pos + random + offset;
-	particle.color = glm::vec4(bright, bright, bright, 1.0f);
+	particle.pos = pos + (0.01f * random) + offset;
+	particle.color = vec4(1.0f, 1.0f, 1.0f, 1.0f);// glm::vec4(bright, bright, bright, 1.0f);
 	particle.life = 1.0f;
-	particle.vel = random + offset;
+	particle.vel = 0.00025f * random + offset;
 }
 
-void ParticleGenerator::Update(float dt, vec2 pos, int newParticles, glm::vec2 offset)
+void ParticleGenerator::Update(vec2 pos, int newParticles, float dt, glm::vec2 offset)
 {
 	// Add new particles
 	for (int i = 0; i < newParticles; i++)

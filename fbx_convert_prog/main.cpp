@@ -37,7 +37,8 @@ vec3 char_direction = vec3(0, 0, 0);
 
 vector<float> bone::cylinder;
 vector<float> bone::cylinder_normals;
-shared_ptr<ParticleGenerator> particles;
+mat4 bone::headModel = mat4(1.0f);
+ParticleGenerator* particles;
 
 double get_last_elapsed_time()
 {
@@ -224,7 +225,7 @@ public:
 	all_animations all_animation;
 	void initGeom(const std::string& resourceDirectory)
 	{
-
+		
 		for (int ii = 0; ii < 200; ii++)
 			animmat[ii] = mat4(1);
 		
@@ -297,10 +298,24 @@ public:
 		int width, height, channels;
 		char filepath[1000];
 
-		//texture 2
-		string str = resourceDirectory + "/grid.jpg";
+		//texture 1
+		string str = resourceDirectory + "/particle2.png";
 		strcpy(filepath, str.c_str());
 		unsigned char *data = stbi_load(filepath, &width, &height, &channels, 4);
+		glGenTextures(1, &Texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, Texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		//texture 2
+		str = resourceDirectory + "/grid.jpg";
+		strcpy(filepath, str.c_str());
+		data = stbi_load(filepath, &width, &height, &channels, 4);
 		glGenTextures(1, &Texture2);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, Texture2);
@@ -313,10 +328,15 @@ public:
 
 		//[TWOTEXTURES]
 		//set the 2 textures to the correct samplers in the fragment shader:
+		GLuint Tex1Location = glGetUniformLocation(pparticle->pid, "tex");
 		GLuint Tex2Location = glGetUniformLocation(prog->pid, "tex2");
 		// Then bind the uniform samplers to texture units:
+		glUseProgram(pparticle->pid);
+		glUniform1i(Tex1Location, 0);
+
 		glUseProgram(prog->pid);
 		glUniform1i(Tex2Location, 1);
+
 
 	}
 
@@ -389,10 +409,14 @@ public:
 			exit(1);
 		}
 		pparticle->addUniform("P");
+		pparticle->addUniform("M");
+		pparticle->addUniform("Z");
 		pparticle->addUniform("offset");
 		pparticle->addUniform("color");
-		pparticle->addUniform("sprite");
+		pparticle->addUniform("tex");
 		pparticle->addAttribute("vertex");
+
+		particles = new ParticleGenerator(pparticle);
 	}
 
 
@@ -494,6 +518,7 @@ public:
 		glEnable(GL_DEPTH_TEST);	
 		psky->unbind();
 		
+		
 		prog->bind();
 		//send the matrices to the shaders
 		glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
@@ -510,6 +535,21 @@ public:
 		glDrawArrays(GL_TRIANGLES, 0, size_stick);
 		glBindVertexArray(0);		
 		prog->unbind();
+
+		particles->Update(vec2(char_pos.x, char_pos.y), 2);
+		// Draw the particles using GLSL.
+		pparticle->bind();
+		glm::mat4 head = glm::translate(glm::mat4(1.0f), vec3(0.05f, 0.4f, 0.0f));
+		M = V * TransZ * head;
+		glUniformMatrix4fv(pparticle->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+		glUniformMatrix4fv(pparticle->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		glUniform1f(pparticle->getUniform("Z"), char_pos.z);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, Texture);
+		glDisable(GL_DEPTH_TEST);
+		particles->Draw();			//render!!!!!!!
+		glEnable(GL_DEPTH_TEST);
+		pparticle->unbind();
 	}
 
 };

@@ -19,5 +19,4 @@ void main()
 	vec4 norm = Ma*vec4(vertNor,1.0);
 	vertex_normal = norm.xyz;
     vertex_pos = pos.xyz;
-	
 }

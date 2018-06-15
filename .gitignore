@@ -11,3 +11,5 @@ fbx_convert_prog\ext\
 .vs/
 *.obj
 *.tlog
+*.exe
+*.ilk

@@ -59,6 +59,14 @@ mat4 bone::headModel = mat4(1.0f);
 ParticleGenerator* particles;
 ParticleGenerator* particles2;
 
+vec3 p1Head = vec3(0.05f, 0.4f, 0.0f);
+vec3 p1Fireball = p1Head;
+vec3 p2Head = vec3(-0.05f, 0.4f, 0.0f);
+vec3 p2Fireball = p2Head;
+vec3 p1FireballVel = vec3(0.0f);
+vec3 p2FireballVel = vec3(0.0f);
+bool fireball1 = false;
+bool fireball2 = false;
 
 double get_last_elapsed_time()
 {
@@ -243,7 +251,13 @@ public:
          
          nextAnim = "magic";
          frame = 0;
-         
+		 if (p1FireballVel.y < 0.0f)
+		 {
+			 p1Fireball = p1Head;
+			 p1FireballVel = vec3(0.0f);
+		 }
+		 else
+			p1FireballVel = vec3(.010f, -0.001f, 0.0f);
 		}
       if (key == GLFW_KEY_O && action == GLFW_RELEASE) //Walk
       {
@@ -298,6 +312,13 @@ public:
          nextAnimP2 = "magic";
          
          frameP2 = 0;
+		 if (p2FireballVel.y < 0.0f)
+		 {
+			 p2Fireball = p2Head;
+			 p2FireballVel = vec3(0.0f);
+		 }
+		 else
+			 p2FireballVel = vec3(-.010f, -0.001f, 0.0f);
 
       }
       if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS) //Run
@@ -861,27 +882,29 @@ public:
       glBindVertexArray(1);
       prog->unbind();
 
-	  /*pfloor->bind();
-	  //send the matrices to the shaders
-	  glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-	  glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-	  glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
+	  /*///Floor
+	  pfloor->bind();
+	  glUniformMatrix4fv(pfloor->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+	  glUniformMatrix4fv(pfloor->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+	  glUniform3fv(pfloor->getUniform("campos"), 1, &mycam.pos[0]);
 	  glBindVertexArray(VAOFloor);
 
-	  glm::mat4 Trans = glm::translate(glm::mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
-	  glm::mat4 SP2 = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 10.0f, 0.005f));
-	  M = TransZP2 * char_rotateP2 * S;
+	  glm::mat4 FloorTranslate = glm::translate(glm::mat4(1.0f), vec3(0.0f, -5.0f, -5.0f));
+	  glm::mat4 FloorScale = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 100.0f));
+	  glm::mat4 FloorRotate = glm::rotate(glm::mat4(1.0f), 1.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	  M = FloorTranslate * FloorScale;
 
-	  glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-	  glDrawArrays(GL_TRIANGLES, 0, size_stick);
-	  glBindVertexArray(1);
+	  glUniformMatrix4fv(pfloor->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+	  glDrawArrays(GL_TRIANGLES, 0, bone::cylinder.size() / 3);
 	  pfloor->unbind();*/
 
+	  //Particles
 		particles->Update(vec2(char_pos.x, char_pos.y), 4);
 		particles2->Update(vec2(char_posP2.x, char_posP2.y), 4);
+		p1Fireball += p1FireballVel;
 		// Draw the particles using GLSL.
 		pparticle->bind();
-		glm::mat4 head = glm::translate(glm::mat4(1.0f), vec3(0.05f, 0.4f, 0.0f));
+		glm::mat4 head = glm::translate(glm::mat4(1.0f), p1Fireball);
 		M = V * TransZ * head * S;
 		glUniformMatrix4fv(pparticle->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(pparticle->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -891,7 +914,7 @@ public:
 		glDisable(GL_DEPTH_TEST);
 		particles->Draw();			//render!!!!!!!
 
-		glm::mat4 head2 = glm::translate(glm::mat4(1.0f), vec3(-0.05f, 0.4f, 0.0f));
+		glm::mat4 head2 = glm::translate(glm::mat4(1.0f), p2Fireball);
 		M = V * TransZP2 * head2 * S;
 		glUniformMatrix4fv(pparticle->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniform1f(pparticle->getUniform("Z"), char_posP2.z);

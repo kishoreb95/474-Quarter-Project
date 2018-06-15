@@ -12,18 +12,18 @@ c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(234): war
 c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(250): warning C4018: '<': signed/unsigned mismatch
 c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(256): warning C4018: '<': signed/unsigned mismatch
 c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\bone.h(264): warning C4018: '<': signed/unsigned mismatch
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(87): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(91): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(95): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(97): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(502): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(99): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(103): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(105): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(523): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(136): note: see declaration of 'strcpy'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(516): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(537): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(136): note: see declaration of 'strcpy'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(728): warning C4305: '-=': truncation from 'double' to 'float'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(733): warning C4305: '+=': truncation from 'double' to 'float'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(779): warning C4305: '+=': truncation from 'double' to 'float'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(783): warning C4305: '-=': truncation from 'double' to 'float'
-c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(808): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(749): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(754): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(800): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(804): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\thech_000\desktop\474-quarter-project\fbx_convert_prog\main.cpp(829): warning C4305: 'initializing': truncation from 'double' to 'float'
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.exe
   fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.pdb (Full PDB)

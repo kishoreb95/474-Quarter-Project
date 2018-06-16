@@ -45,7 +45,9 @@ bool char_right = false;
 bool char_leftP2 = false;
 bool char_rightP2 = false;
 vec3 char_pos = vec3(-3, 0, -5);
+vec3 og_char_pos = vec3(-3, 0, -5);
 vec3 char_posP2 = vec3(3, 0, -5);
+vec3 og_char_posP2 = vec3(3, 0, -5);
 vec3 char_direction = vec3(0, 0, 0);
 vec3 char_directionP2 = vec3(0, 0, 0);
 bool restart = false;
@@ -253,11 +255,11 @@ public:
          frame = 0;
 		 if (p1FireballVel.y < 0.0f)
 		 {
+    
 			 p1Fireball = p1Head;
 			 p1FireballVel = vec3(0.0f);
 		 }
-		 else
-			p1FireballVel = vec3(.010f, -0.001f, 0.0f);
+		 
 		}
       if (key == GLFW_KEY_O && action == GLFW_RELEASE) //Walk
       {
@@ -317,8 +319,7 @@ public:
 			 p2Fireball = p2Head;
 			 p2FireballVel = vec3(0.0f);
 		 }
-		 else
-			 p2FireballVel = vec3(-.010f, -0.001f, 0.0f);
+		
 
       }
       if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS) //Run
@@ -392,6 +393,11 @@ public:
 		shape->resize();
 		shape->init();
 
+      plane = make_shared<Shape>();
+      plane->loadMesh(resourceDirectory + "/floor.obj");
+      plane->resize();
+      plane->init();
+      
 		vector<tinyobj::shape_t> shapes;
 		vector<tinyobj::material_t> objMaterials;
 		string errStr;
@@ -607,7 +613,7 @@ public:
 
 		pfloor = std::make_shared<Program>();
 		pfloor->setVerbose(true);
-		pfloor->setShaderNames(current + "/floor_vertex.glsl", resourceDirectory + "/shader_fragment.glsl");
+		pfloor->setShaderNames(current + "/floor_vertex.glsl", resourceDirectory + "/floor_fragment.glsl");
 		if (!pfloor->init())
 		{
 			std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
@@ -707,6 +713,42 @@ public:
             health -= 5;
             printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
          }
+      }
+  
+      if ((char_posP2.x - p1Fireball.x) < -2.7f && (abs(char_posP2.z - char_pos.z) < 0.5))
+      {
+        
+         p1Fireball = p1Head;
+         p1FireballVel = vec3(0.0f);
+         healthP2 -= 25;
+         printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+      }
+
+      if ((char_pos.x - p2Fireball.x) > 2.7f && (abs(char_posP2.z - char_pos.z) < 0.5))
+      {
+         
+         p2Fireball = p2Head;
+         p2FireballVel = vec3(0.0f);
+         health -= 25;
+         printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+      }
+      if (nextAnim == "magic" && frame > 50)
+      {
+         p1FireballVel = vec3(.010f, -0.001f, 0.0f);
+      }
+      if (p1Fireball.x > 6.7)
+      {
+         p1Fireball = p1Head;
+         p1FireballVel = vec3(0.0f);
+      }
+      if (p2Fireball.x < -6.7)
+      {
+         p2Fireball = p2Head;
+         p2FireballVel = vec3(0.0f);
+      }
+      if (nextAnimP2 == "magic" && frameP2 > 50)
+      {
+         p2FireballVel = p2FireballVel = vec3(-.010f, -0.001f, 0.0f);
       }
 		if (totaltime_untilframe_ms >= anim_step_width_ms)
 		{
@@ -882,26 +924,31 @@ public:
       glBindVertexArray(1);
       prog->unbind();
 
-	  /*///Floor
+	  //Floor
 	  pfloor->bind();
 	  glUniformMatrix4fv(pfloor->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 	  glUniformMatrix4fv(pfloor->getUniform("V"), 1, GL_FALSE, &V[0][0]);
 	  glUniform3fv(pfloor->getUniform("campos"), 1, &mycam.pos[0]);
 	  glBindVertexArray(VAOFloor);
 
-	  glm::mat4 FloorTranslate = glm::translate(glm::mat4(1.0f), vec3(0.0f, -5.0f, -5.0f));
+	  glm::mat4 FloorTranslate = glm::translate(glm::mat4(1.0f), vec3(0.0f, -20.f, 0.0f));
 	  glm::mat4 FloorScale = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 100.0f));
 	  glm::mat4 FloorRotate = glm::rotate(glm::mat4(1.0f), 1.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	  M = FloorTranslate * FloorScale;
-
+	  M = FloorScale * FloorTranslate;
+     
 	  glUniformMatrix4fv(pfloor->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-	  glDrawArrays(GL_TRIANGLES, 0, bone::cylinder.size() / 3);
-	  pfloor->unbind();*/
+     glActiveTexture(GL_TEXTURE0);
+     glBindTexture(GL_TEXTURE_2D, Texture2);
+     glDisable(GL_DEPTH_TEST);
+     plane->draw(psky, false);
+	  pfloor->unbind();
 
 	  //Particles
-		particles->Update(vec2(char_pos.x, char_pos.y), 4);
-		particles2->Update(vec2(char_posP2.x, char_posP2.y), 4);
+  
+		particles->Update(vec2(og_char_pos.x, og_char_pos.y), 4);
+		particles2->Update(vec2(og_char_posP2.x, og_char_posP2.y), 4);
 		p1Fireball += p1FireballVel;
+      p2Fireball += p2FireballVel;
 		// Draw the particles using GLSL.
 		pparticle->bind();
 		glm::mat4 head = glm::translate(glm::mat4(1.0f), p1Fireball);

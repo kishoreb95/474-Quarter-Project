@@ -16,5 +16,5 @@ float diffuse_fact = clamp(dot(lightdir,frag_norm),0,1);
 vec3 h = normalize(camdir + lightdir);
 float spec_fact = clamp(dot(h,frag_norm),0,1);
 
-color.rgb = vec3(1, 0, 0);
+color.rgb = vec3(0.6, 0.3, 0);
 }

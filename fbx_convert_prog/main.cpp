@@ -929,7 +929,7 @@ public:
 	  glUniformMatrix4fv(pfloor->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 	  glUniformMatrix4fv(pfloor->getUniform("V"), 1, GL_FALSE, &V[0][0]);
 	  glUniform3fv(pfloor->getUniform("campos"), 1, &mycam.pos[0]);
-	  glBindVertexArray(VAOFloor);
+	//  glBindVertexArray(VAOFloor);
 
 	  glm::mat4 FloorTranslate = glm::translate(glm::mat4(1.0f), vec3(0.0f, -20.f, 0.0f));
 	  glm::mat4 FloorScale = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 100.0f));
@@ -937,10 +937,10 @@ public:
 	  M = FloorScale * FloorTranslate;
      
 	  glUniformMatrix4fv(pfloor->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-     glActiveTexture(GL_TEXTURE0);
+    /* glActiveTexture(GL_TEXTURE0);
      glBindTexture(GL_TEXTURE_2D, Texture2);
-     glDisable(GL_DEPTH_TEST);
-     plane->draw(psky, false);
+     glDisable(GL_DEPTH_TEST);*/
+     plane->draw(pfloor, false);
 	  pfloor->unbind();
 
 	  //Particles

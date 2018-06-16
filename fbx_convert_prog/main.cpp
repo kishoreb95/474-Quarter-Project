@@ -799,7 +799,7 @@ public:
 			char_pos.x -= 0.035;
 
 		}
-		else if (char_right && char_pos.z < -2.7f)
+		else if (char_right && char_pos.z < -2.7f && char_pos.x <= char_posP2.x - 0.5f)
 		{
 			char_pos.z += 0.035;
 			char_pos.x += 0.035;
@@ -846,7 +846,7 @@ public:
 			char_posP2.z += char_directionP2.z;
 			char_posP2.x += char_directionP2.x;
 		}
-		else if (char_leftP2 && char_posP2.z < -2.7f)
+		else if (char_leftP2 && char_posP2.z < -2.7f && char_pos.x <= char_posP2.x - 0.5f)
 		{
 			char_posP2.z += 0.035;
 			char_posP2.x -= 0.035;

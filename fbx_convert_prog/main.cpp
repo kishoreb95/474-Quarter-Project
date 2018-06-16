@@ -359,67 +359,86 @@ public:
 	int size_stick = 0;
 	all_animations all_animation;
    all_animations all_animationP2;
-	void initGeom(const std::string& resourceDirectory)
-	{
-		
-		for (int ii = 0; ii < 200; ii++)
-			animmat[ii] = mat4(1);
-		
-		//Load in animations
-		readtobone("Idle.fbx",&all_animation,&root, "idle");
-		readtobone("Walking.fbx", &all_animation, NULL, "walk");
-      readtobone("Walking Backwards.fbx", &all_animation, NULL, "walkback"); // testing
-      readtobone("Boxing.fbx", &all_animation, NULL, "punch");
-      readtobone("Fireball.fbx", &all_animation, NULL, "magic");
-      readtobone("Strafe Left.fbx", &all_animation, NULL, "left");
-      readtobone("Strafe Right.fbx", &all_animation, NULL, "right");
+   void initGeom(const std::string& resourceDirectory)
+   {
 
-      root->set_animations(&all_animation, animmat, animmatsize);
-      
-      readtobone("Idle.fbx", &all_animationP2, &rootP2, "idle");
-      readtobone("Walking.fbx", &all_animationP2, NULL, "walk");
-      readtobone("Walking Backwards.fbx", &all_animationP2, NULL, "walkback"); // testing
-      readtobone("Boxing.fbx", &all_animationP2, NULL, "punch");
-      readtobone("Fireball.fbx", &all_animationP2, NULL, "magic");
-      readtobone("Strafe Left.fbx", &all_animationP2, NULL, "left");
-      readtobone("Strafe Right.fbx", &all_animationP2, NULL, "right");
+	   for (int ii = 0; ii < 200; ii++)
+		   animmat[ii] = mat4(1);
 
-      rootP2->set_animations(&all_animation, animmatP2, animmatsizeP2);
+	   //Load in animations
+	   readtobone("Idle.fbx", &all_animation, &root, "idle");
+	   readtobone("Walking.fbx", &all_animation, NULL, "walk");
+	   readtobone("Walking Backwards.fbx", &all_animation, NULL, "walkback"); // testing
+	   readtobone("Boxing.fbx", &all_animation, NULL, "punch");
+	   readtobone("Fireball.fbx", &all_animation, NULL, "magic");
+	   readtobone("Strafe Left.fbx", &all_animation, NULL, "left");
+	   readtobone("Strafe Right.fbx", &all_animation, NULL, "right");
 
-		// Initialize mesh.
-		shape = make_shared<Shape>();
-		shape->loadMesh(resourceDirectory + "/skybox.obj");
-		shape->resize();
-		shape->init();
+	   root->set_animations(&all_animation, animmat, animmatsize);
 
-		vector<tinyobj::shape_t> shapes;
-		vector<tinyobj::material_t> objMaterials;
-		string errStr;
-		bool loaded = false;
-		string cylinder_load = resourceDirectory + "/cylinder.obj";
-		loaded = tinyobj::LoadObj(shapes, objMaterials, errStr, cylinder_load.data());
-		if (shapes.size() <= 0)
-		{
-			cout << "couldn't load" << endl;
-			exit(1);
-		}
-		bone::cylinder = shapes[0].mesh.positions;
-		bone::cylinder_normals = shapes[0].mesh.normals;
+	   readtobone("Idle.fbx", &all_animationP2, &rootP2, "idle");
+	   readtobone("Walking.fbx", &all_animationP2, NULL, "walk");
+	   readtobone("Walking Backwards.fbx", &all_animationP2, NULL, "walkback"); // testing
+	   readtobone("Boxing.fbx", &all_animationP2, NULL, "punch");
+	   readtobone("Fireball.fbx", &all_animationP2, NULL, "magic");
+	   readtobone("Strafe Left.fbx", &all_animationP2, NULL, "left");
+	   readtobone("Strafe Right.fbx", &all_animationP2, NULL, "right");
 
+	   rootP2->set_animations(&all_animation, animmatP2, animmatsizeP2);
+
+	   // Initialize mesh.
+	   shape = make_shared<Shape>();
+	   shape->loadMesh(resourceDirectory + "/skybox.obj");
+	   shape->resize();
+	   shape->init();
+
+	   vector<tinyobj::shape_t> shapes;
+	   vector<tinyobj::material_t> objMaterials;
+	   string errStr;
+	   bool loaded = false;
+	   string cylinder_load = resourceDirectory + "/cylinder.obj";
+	   loaded = tinyobj::LoadObj(shapes, objMaterials, errStr, cylinder_load.data());
+	   if (shapes.size() <= 0)
+	   {
+		   cout << "couldn't load" << endl;
+		   exit(1);
+	   }
+	   bone::cylinder = shapes[0].mesh.positions;
+	   bone::cylinder_normals = shapes[0].mesh.normals;
+
+	   float floorVert[] = {
+		   0.0f, 0.0f, 0.0f,
+		   0.0f, 0.0f, 1.0f,
+		   1.0f, 0.0f, 0.0f,
+
+		   1.0f, 0.0f, 1.0f,
+		   1.0f, 0.0f, 0.0f,
+		   0.0f, 0.0f, 1.0f,
+	   };
+
+	   float floorNorm[] = {
+		   0.0f, 1.0f, 0.0f,
+		   0.0f, 1.0f, 0.0f,
+		   0.0f, 1.0f, 0.0f,
+
+		   0.0f, 1.0f, 0.0f,
+		   0.0f, 1.0f, 0.0f,
+		   0.0f, 1.0f, 0.0f,
+	   };
 		//Floor setup
 		glGenVertexArrays(1, &VAOFloor);
 		glBindVertexArray(VAOFloor);
 
 		glGenBuffers(1, &VertexFloor);
 		glBindBuffer(GL_ARRAY_BUFFER, VertexFloor); //Floor vertices
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*bone::cylinder.size(), bone::cylinder.data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*18, floorVert, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glGenBuffers(1, &NormalFloor);
 		glBindBuffer(GL_ARRAY_BUFFER, NormalFloor); //Floor normals
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*bone::cylinder_normals.size(), bone::cylinder_normals.data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*18, floorNorm, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -607,7 +626,7 @@ public:
 
 		pfloor = std::make_shared<Program>();
 		pfloor->setVerbose(true);
-		pfloor->setShaderNames(current + "/floor_vertex.glsl", resourceDirectory + "/shader_fragment.glsl");
+		pfloor->setShaderNames(resourceDirectory + "/floor_vertex.glsl", resourceDirectory + "/shader_fragment.glsl");
 		if (!pfloor->init())
 		{
 			std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
@@ -882,7 +901,7 @@ public:
       glBindVertexArray(1);
       prog->unbind();
 
-	  /*///Floor
+	  ///Floor
 	  pfloor->bind();
 	  glUniformMatrix4fv(pfloor->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 	  glUniformMatrix4fv(pfloor->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -891,17 +910,18 @@ public:
 
 	  glm::mat4 FloorTranslate = glm::translate(glm::mat4(1.0f), vec3(0.0f, -5.0f, -5.0f));
 	  glm::mat4 FloorScale = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 100.0f));
-	  glm::mat4 FloorRotate = glm::rotate(glm::mat4(1.0f), 1.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	  M = FloorTranslate * FloorScale;
+	  glm::mat4 FloorRotate = glm::rotate(glm::mat4(1.0f), degrees(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	  M = FloorRotate * FloorScale;
 
 	  glUniformMatrix4fv(pfloor->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-	  glDrawArrays(GL_TRIANGLES, 0, bone::cylinder.size() / 3);
-	  pfloor->unbind();*/
+	  glDrawArrays(GL_TRIANGLES, 0, 6);
+	  pfloor->unbind();
 
 	  //Particles
 		particles->Update(vec2(char_pos.x, char_pos.y), 4);
 		particles2->Update(vec2(char_posP2.x, char_posP2.y), 4);
 		p1Fireball += p1FireballVel;
+		p2Fireball += p2FireballVel;
 		// Draw the particles using GLSL.
 		pparticle->bind();
 		glm::mat4 head = glm::translate(glm::mat4(1.0f), p1Fireball);

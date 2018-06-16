@@ -39,7 +39,7 @@ public:
 	static vector<float> cylinder;
 	static vector<float> cylinder_normals;
 	static mat4 headModel;
-
+	static mat4 handModel;
 	vector<animation_per_bone*> animation;	//all the animations of the bone
 	string name;
 	vec3 pos;
@@ -108,6 +108,8 @@ public:
 				}
 		for (int i = 0; i < kids.size(); i++)
 			kids[i]->play_animation(keyframenumber,animationname);
+		if (name == "Head")
+			headModel = *mat;
 		}
 
 	//basically it takes floats for indices, so we can go between indices (1.5 is a .5 mix between 1 and 2)
@@ -151,6 +153,8 @@ public:
 			}
 		for (int i = 0; i < kids.size(); i++)
 			kids[i]->play_animation(keyframepos, animationname);
+		if (name == "Head")
+			headModel = *mat;
 	}
 
 	//Transition between anim1 and anim2, when finished sets anim2 equal to anim1
@@ -226,6 +230,8 @@ public:
 		{
 			anim1 = anim2;
 		}
+		if (name == "Head")
+			headModel = *mat;
 	}
 	//writes into the segment positions and into the animation index VBO
 	void write_to_VBOs(vector<vec3> &vpos, vector<vec3> &vnorm, vector<unsigned int> &imat)

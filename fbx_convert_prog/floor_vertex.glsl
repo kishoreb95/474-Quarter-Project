@@ -10,7 +10,7 @@ void main()
 {
     vec4 pos = M * vec4(vertPos,1.0);
     gl_Position = P * V * pos;
-	vec4 norm = M * vec4(vertNor,1.0);
+	vec4 norm = M * vec4(0.0f, 1.0f, 0.0f ,1.0);
 	vertex_normal = norm.xyz;
     vertex_pos = pos.xyz;
 }

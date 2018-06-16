@@ -45,7 +45,9 @@ bool char_right = false;
 bool char_leftP2 = false;
 bool char_rightP2 = false;
 vec3 char_pos = vec3(-3, 0, -5);
+vec3 og_char_pos = vec3(-3, 0, -5);
 vec3 char_posP2 = vec3(3, 0, -5);
+vec3 og_char_posP2 = vec3(3, 0, -5);
 vec3 char_direction = vec3(0, 0, 0);
 vec3 char_directionP2 = vec3(0, 0, 0);
 bool restart = false;
@@ -71,8 +73,8 @@ bool fireball2 = false;
 double get_last_elapsed_time()
 {
 	static double lasttime = glfwGetTime();
-	double actualtime =glfwGetTime();
-	double difference = actualtime- lasttime;
+	double actualtime = glfwGetTime();
+	double difference = actualtime - lasttime;
 	lasttime = actualtime;
 	return difference;
 }
@@ -84,28 +86,28 @@ public:
 	camera()
 	{
 		w = a = s = d = 0;
-      pos = glm::vec3(0, -1, 0);
-		rot = glm::vec3(3.14159/6, 0, 0);
+		pos = glm::vec3(0, -1, 0);
+		rot = glm::vec3(3.14159 / 6, 0, 0);
 	}
 	glm::mat4 process(double ftime)
 	{
 		float speed = 0;
 		if (w == 1)
 		{
-			speed = 10*ftime;
+			speed = 10 * ftime;
 		}
 		else if (s == 1)
 		{
-			speed = -10*ftime;
+			speed = -10 * ftime;
 		}
-		float yangle=0;
+		float yangle = 0;
 		if (a == 1)
-			yangle = -3*ftime;
-		else if(d==1)
-			yangle = 3*ftime;
+			yangle = -3 * ftime;
+		else if (d == 1)
+			yangle = 3 * ftime;
 		rot.y += yangle;
 		glm::mat4 R = glm::rotate(glm::mat4(1), rot.y, glm::vec3(0, 1, 0));
-		glm::vec4 dir = glm::vec4(0, 0, speed,1);
+		glm::vec4 dir = glm::vec4(0, 0, speed, 1);
 		dir = dir*R;
 		pos += glm::vec3(dir.x, dir.y, dir.z);
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
@@ -127,211 +129,210 @@ public:
 
 	// Contains vertex information for OpenGL
 	GLuint VertexArrayID;
-   GLuint VertexArrayIDP2;
+	GLuint VertexArrayIDP2;
 	// Data necessary to give our box to OpenGL
 	GLuint VertexBufferID, VertexBufferIDimat, VertexNormDBox, VertexTexBox, IndexBufferIDBox, NormalBufferID;
-   GLuint VertexBufferIDP2, VertexBufferIDimatP2, VertexNormDBoxP2, VertexTexBoxP2, IndexBufferIDBoxP2, NormalBufferIDP2;
-   GLuint VAOFloor, VertexFloor, NormalFloor;
+	GLuint VertexBufferIDP2, VertexBufferIDimatP2, VertexNormDBoxP2, VertexTexBoxP2, IndexBufferIDBoxP2, NormalBufferIDP2;
+	GLuint VAOFloor, VertexFloor, NormalFloor;
 
 	//texture data
 	GLuint Texture;
 	GLuint Texture2;
-	
+
 	//animation matrices:
 	mat4 animmat[200];
-	int animmatsize=0;
+	int animmatsize = 0;
 
-   mat4 animmatP2[200];
-   int animmatsizeP2 = 0;
+	mat4 animmatP2[200];
+	int animmatsizeP2 = 0;
 	void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	{
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		{
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-		
-		
+
+
 		if (key == GLFW_KEY_A && action == GLFW_PRESS)
 		{
 			//mycam.a = 1;
-         char_forward = true;
-         nextAnim = "walkback";
-         currentAnim = "walkback";
-         
-         
-		}
-      if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
-      {
-         health = 100;
-         healthP2 = 100;
-         restart = true;
-         
-      }
-      if (key == GLFW_KEY_ENTER && action == GLFW_RELEASE)
-      {
-       
+			char_forward = true;
+			nextAnim = "walkback";
+			currentAnim = "walkback";
 
-      }
-      if (key != GLFW_KEY_P)
-      {
-         punching = false;
-      }
-      if (key != GLFW_KEY_KP_3)
-      {
-         punchingP2 = false;
-      }
+
+		}
+		if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
+		{
+			health = 100;
+			healthP2 = 100;
+			restart = true;
+
+		}
+		if (key == GLFW_KEY_ENTER && action == GLFW_RELEASE)
+		{
+
+
+		}
+		if (key != GLFW_KEY_P)
+		{
+			punching = false;
+		}
+		if (key != GLFW_KEY_KP_3)
+		{
+			punchingP2 = false;
+		}
 		if (key == GLFW_KEY_A && action == GLFW_RELEASE) // need to switch directions
 		{
 			//mycam.a = 0;
-         
-         char_forward = false;
-         nextAnim = "idle";
+
+			char_forward = false;
+			nextAnim = "idle";
 		}
 		if (key == GLFW_KEY_D && action == GLFW_PRESS)
 		{
 			//mycam.d = 1;
-         char_backward = true;
-         nextAnim = "walk";
-         currentAnim = "walk";
+			char_backward = true;
+			nextAnim = "walk";
+			currentAnim = "walk";
 		}
 		if (key == GLFW_KEY_D && action == GLFW_RELEASE)
 		{
 			//mycam.d = 0;
-         char_backward = false;
-         nextAnim = "idle";
+			char_backward = false;
+			nextAnim = "idle";
 		}
-      if (key == GLFW_KEY_W && action == GLFW_PRESS)
-      {
-         //mycam.d = 0;
-         char_left = true;
-         nextAnim = "left"; // add strafe left
-      }
-      if (key == GLFW_KEY_W && action == GLFW_RELEASE)
-      {
-         //mycam.d = 0;
-         char_left = false;
-         nextAnim = "idle"; // add strafe left
-      }
-      if (key == GLFW_KEY_S && action == GLFW_PRESS)
-      {
-         //mycam.d = 0;
-         char_right = true;
-         nextAnim = "right"; // add strafe left
-      }
-      if (key == GLFW_KEY_S && action == GLFW_RELEASE)
-      {
-         //mycam.d = 0;
-         char_right = false;
-         nextAnim = "idle"; // add strafe right animation
-      }
-		if (key == GLFW_KEY_UP && action == GLFW_PRESS) 
+		if (key == GLFW_KEY_W && action == GLFW_PRESS)
 		{
-         char_rightP2 = true;
-         nextAnim = "right";
+			//mycam.d = 0;
+			char_left = true;
+			nextAnim = "left"; // add strafe left
 		}
-		if (key == GLFW_KEY_UP && action == GLFW_RELEASE) 
+		if (key == GLFW_KEY_W && action == GLFW_RELEASE)
 		{
-         char_rightP2 = false;
-         nextAnim = "idle";
+			//mycam.d = 0;
+			char_left = false;
+			nextAnim = "idle"; // add strafe left
 		}
-		if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) 
+		if (key == GLFW_KEY_S && action == GLFW_PRESS)
 		{
-         char_leftP2 = true;
-         nextAnim = "left";
+			//mycam.d = 0;
+			char_right = true;
+			nextAnim = "right"; // add strafe left
 		}
-		if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) 
+		if (key == GLFW_KEY_S && action == GLFW_RELEASE)
 		{
-         char_leftP2 = false;
-         nextAnim = "idle";
+			//mycam.d = 0;
+			char_right = false;
+			nextAnim = "idle"; // add strafe right animation
+		}
+		if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+		{
+			char_rightP2 = true;
+			nextAnim = "right";
+		}
+		if (key == GLFW_KEY_UP && action == GLFW_RELEASE)
+		{
+			char_rightP2 = false;
+			nextAnim = "idle";
+		}
+		if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+		{
+			char_leftP2 = true;
+			nextAnim = "left";
+		}
+		if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE)
+		{
+			char_leftP2 = false;
+			nextAnim = "idle";
 			//char_backward = false;
 		}
 
 		if (key == GLFW_KEY_O && action == GLFW_PRESS) //Walk
 		{
-         
-         nextAnim = "magic";
-         frame = 0;
-		 if (p1FireballVel.y < 0.0f)
-		 {
-			 p1Fireball = p1Head;
-			 p1FireballVel = vec3(0.0f);
-		 }
-		 else
-			p1FireballVel = vec3(.010f, -0.001f, 0.0f);
-		}
-      if (key == GLFW_KEY_O && action == GLFW_RELEASE) //Walk
-      {
-         
-         nextAnim = "idle";
 
-      }
+			nextAnim = "magic";
+			frame = 0;
+			if (p1FireballVel.y < 0.0f)
+			{
+
+				p1Fireball = p1Head;
+				p1FireballVel = vec3(0.0f);
+			}
+
+		}
+		if (key == GLFW_KEY_O && action == GLFW_RELEASE) //Walk
+		{
+
+			nextAnim = "idle";
+
+		}
 		if (key == GLFW_KEY_P && action == GLFW_PRESS) //Run
 
-      {
-         mycam.rot.x += 0.1f;
-         punching = true;
-         currentAnim = "punch";
+		{
+			mycam.rot.x += 0.1f;
+			punching = true;
+			currentAnim = "punch";
 			nextAnim = "punch"; // add punch animation
-         frame = 110;
+			frame = 110;
 		}
 
-      if (key == GLFW_KEY_P && action == GLFW_RELEASE)
-      {
-         nextAnim = "idle";
-      }
+		if (key == GLFW_KEY_P && action == GLFW_RELEASE)
+		{
+			nextAnim = "idle";
+		}
 
-      if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-      {
-         //mycam.a = 1;
-         char_forwardP2 = true;
-         nextAnimP2 = "walk";
+		if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+		{
+			//mycam.a = 1;
+			char_forwardP2 = true;
+			nextAnimP2 = "walk";
 
-      }
-      if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) // need to switch directions
-      {
-         //mycam.a = 0;
-         char_forwardP2 = false;
-         nextAnimP2 = "idle";
-      }
-      if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-      {
-         //mycam.d = 1;
-         char_backwardP2 = true;
-         nextAnimP2 = "walkback";
-      }
-      if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
-      {
-         //mycam.d = 0;
-         char_backwardP2 = false;
-         nextAnimP2 = "idle";
-      }
-      
+		}
+		if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) // need to switch directions
+		{
+			//mycam.a = 0;
+			char_forwardP2 = false;
+			nextAnimP2 = "idle";
+		}
+		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+		{
+			//mycam.d = 1;
+			char_backwardP2 = true;
+			nextAnimP2 = "walkback";
+		}
+		if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
+		{
+			//mycam.d = 0;
+			char_backwardP2 = false;
+			nextAnimP2 = "idle";
+		}
 
-      if (key == GLFW_KEY_KP_2 && action == GLFW_PRESS) //Walk
-      {
-         nextAnimP2 = "magic";
-         
-         frameP2 = 0;
-		 if (p2FireballVel.y < 0.0f)
-		 {
-			 p2Fireball = p2Head;
-			 p2FireballVel = vec3(0.0f);
-		 }
-		 else
-			 p2FireballVel = vec3(-.010f, -0.001f, 0.0f);
 
-      }
-      if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS) //Run
-      {
-         punchingP2 = true;
-         currentAnimP2 = "punch";
-         nextAnimP2 = "punch"; // add punch animation
-         frameP2 = 110;
-      }
-      if (key == GLFW_KEY_KP_3 && action == GLFW_RELEASE) //Run
-      {
-         nextAnimP2 = "idle"; // add punch animation
-      }
+		if (key == GLFW_KEY_KP_2 && action == GLFW_PRESS) //Walk
+		{
+			nextAnimP2 = "magic";
+
+			frameP2 = 0;
+			if (p2FireballVel.y < 0.0f)
+			{
+				p2Fireball = p2Head;
+				p2FireballVel = vec3(0.0f);
+			}
+
+
+		}
+		if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS) //Run
+		{
+			punchingP2 = true;
+			currentAnimP2 = "punch";
+			nextAnimP2 = "punch"; // add punch animation
+			frameP2 = 110;
+		}
+		if (key == GLFW_KEY_KP_3 && action == GLFW_RELEASE) //Run
+		{
+			nextAnimP2 = "idle"; // add punch animation
+		}
 
 
 
@@ -341,7 +342,7 @@ public:
 	// written
 	void mouseCallback(GLFWwindow *window, int button, int action, int mods)
 	{
-		
+
 	}
 
 	//if the window is resized, capture the new size and reset the viewport
@@ -355,97 +356,83 @@ public:
 
 	/*Note that any gl calls must always happen after a GL state is initialized */
 	bone *root = NULL;
-   bone *rootP2 = NULL;
+	bone *rootP2 = NULL;
 	int size_stick = 0;
 	all_animations all_animation;
-   all_animations all_animationP2;
-   void initGeom(const std::string& resourceDirectory)
-   {
+	all_animations all_animationP2;
+	void initGeom(const std::string& resourceDirectory)
+	{
 
-	   for (int ii = 0; ii < 200; ii++)
-		   animmat[ii] = mat4(1);
+		for (int ii = 0; ii < 200; ii++)
+			animmat[ii] = mat4(1);
 
-	   //Load in animations
-	   readtobone("Idle.fbx", &all_animation, &root, "idle");
-	   readtobone("Walking.fbx", &all_animation, NULL, "walk");
-	   readtobone("Walking Backwards.fbx", &all_animation, NULL, "walkback"); // testing
-	   readtobone("Boxing.fbx", &all_animation, NULL, "punch");
-	   readtobone("Fireball.fbx", &all_animation, NULL, "magic");
-	   readtobone("Strafe Left.fbx", &all_animation, NULL, "left");
-	   readtobone("Strafe Right.fbx", &all_animation, NULL, "right");
+		//Load in animations
+		readtobone("Idle.fbx", &all_animation, &root, "idle");
+		readtobone("Walking.fbx", &all_animation, NULL, "walk");
+		readtobone("Walking Backwards.fbx", &all_animation, NULL, "walkback"); // testing
+		readtobone("Boxing.fbx", &all_animation, NULL, "punch");
+		readtobone("Fireball.fbx", &all_animation, NULL, "magic");
+		readtobone("Strafe Left.fbx", &all_animation, NULL, "left");
+		readtobone("Strafe Right.fbx", &all_animation, NULL, "right");
 
-	   root->set_animations(&all_animation, animmat, animmatsize);
+		root->set_animations(&all_animation, animmat, animmatsize);
 
-	   readtobone("Idle.fbx", &all_animationP2, &rootP2, "idle");
-	   readtobone("Walking.fbx", &all_animationP2, NULL, "walk");
-	   readtobone("Walking Backwards.fbx", &all_animationP2, NULL, "walkback"); // testing
-	   readtobone("Boxing.fbx", &all_animationP2, NULL, "punch");
-	   readtobone("Fireball.fbx", &all_animationP2, NULL, "magic");
-	   readtobone("Strafe Left.fbx", &all_animationP2, NULL, "left");
-	   readtobone("Strafe Right.fbx", &all_animationP2, NULL, "right");
+		readtobone("Idle.fbx", &all_animationP2, &rootP2, "idle");
+		readtobone("Walking.fbx", &all_animationP2, NULL, "walk");
+		readtobone("Walking Backwards.fbx", &all_animationP2, NULL, "walkback"); // testing
+		readtobone("Boxing.fbx", &all_animationP2, NULL, "punch");
+		readtobone("Fireball.fbx", &all_animationP2, NULL, "magic");
+		readtobone("Strafe Left.fbx", &all_animationP2, NULL, "left");
+		readtobone("Strafe Right.fbx", &all_animationP2, NULL, "right");
 
-	   rootP2->set_animations(&all_animation, animmatP2, animmatsizeP2);
+		rootP2->set_animations(&all_animation, animmatP2, animmatsizeP2);
 
-	   // Initialize mesh.
-	   shape = make_shared<Shape>();
-	   shape->loadMesh(resourceDirectory + "/skybox.obj");
-	   shape->resize();
-	   shape->init();
+		// Initialize mesh.
+		shape = make_shared<Shape>();
+		shape->loadMesh(resourceDirectory + "/skybox.obj");
+		shape->resize();
+		shape->init();
 
-	   vector<tinyobj::shape_t> shapes;
-	   vector<tinyobj::material_t> objMaterials;
-	   string errStr;
-	   bool loaded = false;
-	   string cylinder_load = resourceDirectory + "/cylinder.obj";
-	   loaded = tinyobj::LoadObj(shapes, objMaterials, errStr, cylinder_load.data());
-	   if (shapes.size() <= 0)
-	   {
-		   cout << "couldn't load" << endl;
-		   exit(1);
-	   }
-	   bone::cylinder = shapes[0].mesh.positions;
-	   bone::cylinder_normals = shapes[0].mesh.normals;
+		plane = make_shared<Shape>();
+		plane->loadMesh(resourceDirectory + "/floor.obj");
+		plane->resize();
+		plane->init();
 
-	   float floorVert[] = {
-		   0.0f, 0.0f, 0.0f,
-		   0.0f, 0.0f, 1.0f,
-		   1.0f, 0.0f, 0.0f,
+		vector<tinyobj::shape_t> shapes;
+		vector<tinyobj::material_t> objMaterials;
+		string errStr;
+		bool loaded = false;
+		string cylinder_load = resourceDirectory + "/cylinder.obj";
+		loaded = tinyobj::LoadObj(shapes, objMaterials, errStr, cylinder_load.data());
+		if (shapes.size() <= 0)
+		{
+			cout << "couldn't load" << endl;
+			exit(1);
+		}
+		bone::cylinder = shapes[0].mesh.positions;
+		bone::cylinder_normals = shapes[0].mesh.normals;
 
-		   1.0f, 0.0f, 1.0f,
-		   1.0f, 0.0f, 0.0f,
-		   0.0f, 0.0f, 1.0f,
-	   };
-
-	   float floorNorm[] = {
-		   0.0f, 1.0f, 0.0f,
-		   0.0f, 1.0f, 0.0f,
-		   0.0f, 1.0f, 0.0f,
-
-		   0.0f, 1.0f, 0.0f,
-		   0.0f, 1.0f, 0.0f,
-		   0.0f, 1.0f, 0.0f,
-	   };
 		//Floor setup
 		glGenVertexArrays(1, &VAOFloor);
 		glBindVertexArray(VAOFloor);
 
 		glGenBuffers(1, &VertexFloor);
 		glBindBuffer(GL_ARRAY_BUFFER, VertexFloor); //Floor vertices
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*18, floorVert, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*bone::cylinder.size(), bone::cylinder.data(), GL_DYNAMIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glGenBuffers(1, &NormalFloor);
 		glBindBuffer(GL_ARRAY_BUFFER, NormalFloor); //Floor normals
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*18, floorNorm, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*bone::cylinder_normals.size(), bone::cylinder_normals.data(), GL_DYNAMIC_DRAW);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glBindVertexArray(0);
 
-		
+
 		//generate the player 1 VAO
 		glGenVertexArrays(1, &VertexArrayID);
 
@@ -486,50 +473,50 @@ public:
 
 
 
-      /*
-      
-         for character 2?
-      
-      
-      */
+		/*
 
-      //generate the VAO
-      glGenVertexArrays(1, &VertexArrayIDP2);
+		for character 2?
 
-      //VAO block
-      glBindVertexArray(VertexArrayIDP2);
 
-      //generate vertex buffer to hand off to OGL
-      glGenBuffers(1, &VertexBufferIDP2);
-      //Vertex buffer setting
-      glBindBuffer(GL_ARRAY_BUFFER, VertexBufferIDP2);
-      vector<vec3> posP2, normP2;
-      vector<unsigned int> imatP2;
-      rootP2->write_to_VBOs(posP2, normP2, imatP2);
-      size_stick = pos.size();
-      //actually memcopy the data - only do this once
-      glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*posP2.size(), posP2.data(), GL_DYNAMIC_DRAW);
-      glEnableVertexAttribArray(0);
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-      glBindBuffer(GL_ARRAY_BUFFER, 0);
+		*/
 
-      glGenBuffers(1, &VertexBufferIDimatP2);
-      //ID buffer setting
-      glBindBuffer(GL_ARRAY_BUFFER, VertexBufferIDimatP2);
-      glBufferData(GL_ARRAY_BUFFER, sizeof(uint)*imatP2.size(), imatP2.data(), GL_DYNAMIC_DRAW);
-      glEnableVertexAttribArray(1);
-      glVertexAttribIPointer(1, 1, GL_UNSIGNED_INT, 0, (void*)0);
-      glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//generate the VAO
+		glGenVertexArrays(1, &VertexArrayIDP2);
 
-      glGenBuffers(1, &NormalBufferIDP2);
-      //Normal buffer setting
-      glBindBuffer(GL_ARRAY_BUFFER, NormalBufferIDP2);
-      glBufferData(GL_ARRAY_BUFFER, normP2.size() * sizeof(vec3), normP2.data(), GL_STATIC_DRAW);
-      glEnableVertexAttribArray(2);
-      glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-      glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//VAO block
+		glBindVertexArray(VertexArrayIDP2);
 
-      glBindVertexArray(1);
+		//generate vertex buffer to hand off to OGL
+		glGenBuffers(1, &VertexBufferIDP2);
+		//Vertex buffer setting
+		glBindBuffer(GL_ARRAY_BUFFER, VertexBufferIDP2);
+		vector<vec3> posP2, normP2;
+		vector<unsigned int> imatP2;
+		rootP2->write_to_VBOs(posP2, normP2, imatP2);
+		size_stick = pos.size();
+		//actually memcopy the data - only do this once
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*posP2.size(), posP2.data(), GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glGenBuffers(1, &VertexBufferIDimatP2);
+		//ID buffer setting
+		glBindBuffer(GL_ARRAY_BUFFER, VertexBufferIDimatP2);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(uint)*imatP2.size(), imatP2.data(), GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(1);
+		glVertexAttribIPointer(1, 1, GL_UNSIGNED_INT, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glGenBuffers(1, &NormalBufferIDP2);
+		//Normal buffer setting
+		glBindBuffer(GL_ARRAY_BUFFER, NormalBufferIDP2);
+		glBufferData(GL_ARRAY_BUFFER, normP2.size() * sizeof(vec3), normP2.data(), GL_STATIC_DRAW);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glBindVertexArray(1);
 
 
 
@@ -626,7 +613,7 @@ public:
 
 		pfloor = std::make_shared<Program>();
 		pfloor->setVerbose(true);
-		pfloor->setShaderNames(resourceDirectory + "/floor_vertex.glsl", resourceDirectory + "/shader_fragment.glsl");
+		pfloor->setShaderNames(current + "/floor_vertex.glsl", resourceDirectory + "/floor_fragment.glsl");
 		if (!pfloor->init())
 		{
 			std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
@@ -668,74 +655,110 @@ public:
 	draw
 	********/
 
-	
+
 	void render()
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		double frametime = get_last_elapsed_time();
-		static double totaltime_ms=0;
+		static double totaltime_ms = 0;
 		totaltime_ms += frametime*1000.0;
 		static double totaltime_untilframe_ms = 0;
 		totaltime_untilframe_ms += frametime*1000.0;
-      
+
 		//animation frame system
 		int anim_step_width_ms = 8490 / 204;
-      if(health < 0 || healthP2 < 0)
-      {
-         printf("Game over. Player ");
-         if (health < 0)
-         {
-            printf("2 ");
-         }
-         else
-         {
-            printf("1 ");
-         }
-         printf("has won!");
-         printf("\nWait a few seconds to play again\n");
-         int i = 0;
-         while (!restart)
-         {
-            if (i > 10)
-            {
-               restart = true;
-               health = 100;
-               healthP2 = 100;
-               char_pos = vec3(-3, 0, -5);
-               char_posP2 = vec3(3, 0, -5);
-           }
-            i++;
-         }
+		if (health < 0 || healthP2 < 0)
+		{
+			printf("Game over. Player ");
+			if (health < 0)
+			{
+				printf("2 ");
+			}
+			else
+			{
+				printf("1 ");
+			}
+			printf("has won!");
+			printf("\nWait a few seconds to play again\n");
+			int i = 0;
+			while (!restart)
+			{
+				if (i > 10)
+				{
+					restart = true;
+					health = 100;
+					healthP2 = 100;
+					char_pos = vec3(-3, 0, -5);
+					char_posP2 = vec3(3, 0, -5);
+				}
+				i++;
+			}
 
-      }
-      if (punching && frame > 120)
-      {
-         if ((char_posP2.x - char_pos.x) < 0.6 && (abs(char_posP2.z - char_pos.z) < 0.3))
-         {
-            punching = false;
-            healthP2 -= 5;
-            printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
-         }
-      }
-      if (punchingP2 && frameP2 > 120)
-      {
-         if ((char_posP2.x - char_pos.x ) < 0.6 && (abs(char_posP2.z - char_pos.z) < 0.3))
-         {
-            punchingP2 = false;
-            health -= 5;
-            printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
-         }
-      }
+		}
+		if (punching && frame > 120)
+		{
+			if ((char_posP2.x - char_pos.x) < 0.6 && (abs(char_posP2.z - char_pos.z) < 0.3))
+			{
+				punching = false;
+				healthP2 -= 5;
+				printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+			}
+		}
+		if (punchingP2 && frameP2 > 120)
+		{
+			if ((char_posP2.x - char_pos.x) < 0.6 && (abs(char_posP2.z - char_pos.z) < 0.3))
+			{
+				punchingP2 = false;
+				health -= 5;
+				printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+			}
+		}
+
+		if ((char_posP2.x - p1Fireball.x) < -2.7f && (abs(char_posP2.z - char_pos.z) < 0.5))
+		{
+
+			p1Fireball = p1Head;
+			p1FireballVel = vec3(0.0f);
+			healthP2 -= 25;
+			printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+		}
+
+		if ((char_pos.x - p2Fireball.x) > 2.7f && (abs(char_posP2.z - char_pos.z) < 0.5))
+		{
+
+			p2Fireball = p2Head;
+			p2FireballVel = vec3(0.0f);
+			health -= 25;
+			printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
+		}
+		if (nextAnim == "magic" && frame > 50)
+		{
+			p1FireballVel = vec3(.010f, -0.001f, 0.0f);
+		}
+		if (p1Fireball.x > 6.7)
+		{
+			p1Fireball = p1Head;
+			p1FireballVel = vec3(0.0f);
+		}
+		if (p2Fireball.x < -6.7)
+		{
+			p2Fireball = p2Head;
+			p2FireballVel = vec3(0.0f);
+		}
+		if (nextAnimP2 == "magic" && frameP2 > 50)
+		{
+			p2FireballVel = p2FireballVel = vec3(-.010f, -0.001f, 0.0f);
+		}
 		if (totaltime_untilframe_ms >= anim_step_width_ms)
 		{
 			totaltime_untilframe_ms = 0;
 			frame += 1;
 		}
-      if (currentAnim == nextAnim)
-      {
-         root->play_animation(frame, currentAnim);	//name of current animation	
-      }
+		if (currentAnim == nextAnim)
+		{
+			root->play_animation(frame, currentAnim);	//name of current animation	
+		}
 		else
 		{
 			root->play_animation_mix(frame, currentAnim, nextAnim);
@@ -763,88 +786,88 @@ public:
 			char_pos.z -= char_direction.z;
 			char_pos.x -= char_direction.x;
 		}
-      else if (char_left)
-      {
-         char_pos.z -= 0.035;
-        
-      }
-      else if (char_right)
-      {
-         char_pos.z += 0.035;
-      }
+		else if (char_left)
+		{
+			char_pos.z -= 0.035;
+
+		}
+		else if (char_right)
+		{
+			char_pos.z += 0.035;
+		}
 
 
-      //animation frame system for player 2
-      static double totaltime_untilframe_msP2 = 0;
-      totaltime_untilframe_msP2 += frametime * 1000.0;
-     
-      if (totaltime_untilframe_msP2 >= anim_step_width_ms) // maybe split this too lets see if it works
-      {
-         totaltime_untilframe_msP2 = 0;
-         frameP2 += 1;
-      }
-      if (currentAnimP2 == nextAnimP2)
-      {
-         rootP2->play_animation(frameP2, currentAnimP2);	//name of current animation	
-      }
-      else
-      {
-         rootP2->play_animation_mix(frameP2, currentAnimP2, nextAnimP2);
-         if (currentAnimP2 == nextAnimP2) frameP2 = 0;
-      }
+		//animation frame system for player 2
+		static double totaltime_untilframe_msP2 = 0;
+		totaltime_untilframe_msP2 += frametime * 1000.0;
 
-      /*if (left_turn)
-      {
-         char_angle += 0.1f;
-      }
-      else if (right_turn)
-      {
-         char_angle -= 0.1f;
-      }*/ //potential dead code
+		if (totaltime_untilframe_msP2 >= anim_step_width_ms) // maybe split this too lets see if it works
+		{
+			totaltime_untilframe_msP2 = 0;
+			frameP2 += 1;
+		}
+		if (currentAnimP2 == nextAnimP2)
+		{
+			rootP2->play_animation(frameP2, currentAnimP2);	//name of current animation	
+		}
+		else
+		{
+			rootP2->play_animation_mix(frameP2, currentAnimP2, nextAnimP2);
+			if (currentAnimP2 == nextAnimP2) frameP2 = 0;
+		}
 
-      glm::mat4 char_rotateP2 = glm::rotate(glm::mat4(1.0f), char_angleP2, vec3(0, 1, 0));
-      char_directionP2 = vec4(0, 0, 0.01f, 0) * char_rotateP2;
-      if (char_forwardP2)
-      {
-         char_posP2.z -= char_directionP2.z;
-         char_posP2.x -= char_directionP2.x;
-      }
-      else if (char_backwardP2)
-      {
-         char_posP2.z += char_directionP2.z;
-         char_posP2.x += char_directionP2.x;
-      }
-      else if (char_leftP2)
-      {
-         char_posP2.z += 0.035;
-      }
-      else if (char_rightP2)
-      {
-         char_posP2.z -= 0.035;
-      }
+		/*if (left_turn)
+		{
+		char_angle += 0.1f;
+		}
+		else if (right_turn)
+		{
+		char_angle -= 0.1f;
+		}*/ //potential dead code
+
+		glm::mat4 char_rotateP2 = glm::rotate(glm::mat4(1.0f), char_angleP2, vec3(0, 1, 0));
+		char_directionP2 = vec4(0, 0, 0.01f, 0) * char_rotateP2;
+		if (char_forwardP2)
+		{
+			char_posP2.z -= char_directionP2.z;
+			char_posP2.x -= char_directionP2.x;
+		}
+		else if (char_backwardP2)
+		{
+			char_posP2.z += char_directionP2.z;
+			char_posP2.x += char_directionP2.x;
+		}
+		else if (char_leftP2)
+		{
+			char_posP2.z += 0.035;
+		}
+		else if (char_rightP2)
+		{
+			char_posP2.z -= 0.035;
+		}
 
 		// Get current frame buffer size.
 		int width, height;
 		glfwGetFramebufferSize(windowManager->getHandle(), &width, &height);
-		float aspect = width/(float)height;
+		float aspect = width / (float)height;
 		glViewport(0, 0, width, height);
 
 		// Clear framebuffer.
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Create the matrix stacks - please leave these alone for now
-		
+
 		glm::mat4 V, M, P; //View, Model and Perspective matrix
 		V = mycam.process(frametime);
 		M = glm::mat4(1);
 		// Apply orthographic projection....
-		P = glm::ortho(-1 * aspect, 1 * aspect, -1.0f, 1.0f, -2.0f, 100.0f);		
+		P = glm::ortho(-1 * aspect, 1 * aspect, -1.0f, 1.0f, -2.0f, 100.0f);
 		if (width < height)
-			{
-			P = glm::ortho(-1.0f, 1.0f, -1.0f / aspect,  1.0f / aspect, -2.0f, 100.0f);
-			}
+		{
+			P = glm::ortho(-1.0f, 1.0f, -1.0f / aspect, 1.0f / aspect, -2.0f, 100.0f);
+		}
 		// ...but we overwrite it (optional) with a perspective projection.
-		P = glm::perspective((float)(3.14159 / 4.), (float)((float)width/ (float)height), 0.1f, 1000.0f); //so much type casting... GLM metods are quite funny ones
+		P = glm::perspective((float)(3.14159 / 4.), (float)((float)width / (float)height), 0.1f, 1000.0f); //so much type casting... GLM metods are quite funny ones
 		float sangle = 3.1415926 / 2.;
 		glm::vec3 camp = -mycam.pos;
 		glm::mat4 TransSky = glm::translate(glm::mat4(1.0f), camp);
@@ -853,7 +876,7 @@ public:
 		M = TransSky * SSky;
 
 		// Draw the sky using GLSL.
-		psky->bind();		
+		psky->bind();
 		glUniformMatrix4fv(psky->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(psky->getUniform("V"), 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(psky->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -861,16 +884,16 @@ public:
 		glBindTexture(GL_TEXTURE_2D, Texture2);
 		glDisable(GL_DEPTH_TEST);
 		shape->draw(psky, false);			//render!!!!!!!
-		glEnable(GL_DEPTH_TEST);	
+		glEnable(GL_DEPTH_TEST);
 		psky->unbind();
-		
-		
+
+
 		prog->bind();
 		//send the matrices to the shaders
 		glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-		glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);	
+		glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
 		glBindVertexArray(VertexArrayID);
 
 		glm::mat4 TransZ = glm::translate(glm::mat4(1.0f), char_pos);
@@ -879,47 +902,51 @@ public:
 		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniformMatrix4fv(prog->getUniform("Manim"), 200, GL_FALSE, &animmat[0][0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, size_stick);
-		glBindVertexArray(0);		
+		glBindVertexArray(0);
 		prog->unbind();
 
 
-      prog->bind();
-      //send the matrices to the shaders
-      glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-      glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-      glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-      glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
-      glBindVertexArray(VertexArrayIDP2);
+		prog->bind();
+		//send the matrices to the shaders
+		glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
+		glBindVertexArray(VertexArrayIDP2);
 
-      glm::mat4 TransZP2 = glm::translate(glm::mat4(1.0f), char_posP2);
-      glm::mat4 SP2 = glm::scale(glm::mat4(1.0f), glm::vec3(0.005f, 0.005f, 0.005f));
-      M = TransZP2 * char_rotateP2 * S;
+		glm::mat4 TransZP2 = glm::translate(glm::mat4(1.0f), char_posP2);
+		glm::mat4 SP2 = glm::scale(glm::mat4(1.0f), glm::vec3(0.005f, 0.005f, 0.005f));
+		M = TransZP2 * char_rotateP2 * S;
 
-      glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-      glUniformMatrix4fv(prog->getUniform("Manim"), 200, GL_FALSE, &animmatP2[0][0][0]);
-      glDrawArrays(GL_TRIANGLES, 0, size_stick);
-      glBindVertexArray(1);
-      prog->unbind();
+		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		glUniformMatrix4fv(prog->getUniform("Manim"), 200, GL_FALSE, &animmatP2[0][0][0]);
+		glDrawArrays(GL_TRIANGLES, 0, size_stick);
+		glBindVertexArray(1);
+		prog->unbind();
 
-	  ///Floor
-	  pfloor->bind();
-	  glUniformMatrix4fv(pfloor->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-	  glUniformMatrix4fv(pfloor->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-	  glUniform3fv(pfloor->getUniform("campos"), 1, &mycam.pos[0]);
-	  glBindVertexArray(VAOFloor);
+		//Floor
+		pfloor->bind();
+		glUniformMatrix4fv(pfloor->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+		glUniformMatrix4fv(pfloor->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+		glUniform3fv(pfloor->getUniform("campos"), 1, &mycam.pos[0]);
+		//  glBindVertexArray(VAOFloor);
 
-	  glm::mat4 FloorTranslate = glm::translate(glm::mat4(1.0f), vec3(0.0f, -5.0f, -5.0f));
-	  glm::mat4 FloorScale = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 100.0f));
-	  glm::mat4 FloorRotate = glm::rotate(glm::mat4(1.0f), degrees(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	  M = FloorRotate * FloorScale;
+		glm::mat4 FloorTranslate = glm::translate(glm::mat4(1.0f), vec3(0.0f, -20.f, 0.0f));
+		glm::mat4 FloorScale = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 100.0f));
+		glm::mat4 FloorRotate = glm::rotate(glm::mat4(1.0f), 1.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+		M = FloorScale * FloorTranslate;
 
-	  glUniformMatrix4fv(pfloor->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-	  glDrawArrays(GL_TRIANGLES, 0, 6);
-	  pfloor->unbind();
+		glUniformMatrix4fv(pfloor->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		/* glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, Texture2);
+		glDisable(GL_DEPTH_TEST);*/
+		plane->draw(pfloor, false);
+		pfloor->unbind();
 
-	  //Particles
-		particles->Update(vec2(char_pos.x, char_pos.y), 4);
-		particles2->Update(vec2(char_posP2.x, char_posP2.y), 4);
+		//Particles
+
+		particles->Update(vec2(og_char_pos.x, og_char_pos.y), 4);
+		particles2->Update(vec2(og_char_posP2.x, og_char_posP2.y), 4);
 		p1Fireball += p1FireballVel;
 		p2Fireball += p2FireballVel;
 		// Draw the particles using GLSL.
@@ -956,20 +983,20 @@ int main(int argc, char **argv)
 	Application *application = new Application();
 
 	/* your main will always include a similar set up to establish your window
-		and GL context, etc. */
+	and GL context, etc. */
 	WindowManager * windowManager = new WindowManager();
 	windowManager->init(1920, 1080);
 	windowManager->setEventCallbacks(application);
 	application->windowManager = windowManager;
 
 	/* This is the code that will likely change program to program as you
-		may need to initialize or set up different data and state */
+	may need to initialize or set up different data and state */
 	// Initialize scene.
 	application->init(resourceDir);
 	application->initGeom(resourceDir);
 
 	// Loop until the user closes the window.
-	while(! glfwWindowShouldClose(windowManager->getHandle()))
+	while (!glfwWindowShouldClose(windowManager->getHandle()))
 	{
 		// Render scene.
 		application->render();

@@ -193,6 +193,7 @@ public:
 		{
 			//mycam.d = 1;
 			char_backward = true;
+
 			nextAnim = "walk";
 			currentAnim = "walk";
 		}
@@ -336,8 +337,7 @@ public:
 
 		if (key == GLFW_KEY_F && action == GLFW_PRESS)
 		{
-			cout << "p1 Fireball: " << p1Fireball.x << ", " << p1Fireball.y << ", " << p1Fireball.z << endl;
-			cout << "p2 position: " << char_posP2.x - char_pos.x << ", " << char_posP2.y - char_pos.y << ", " << char_posP2.z - char_pos.z << endl;
+			cout << "p2 position: " << char_posP2.x<< ", " << char_posP2.y<< ", " << char_posP2.z<< endl;
 		}
 	}
 
@@ -783,24 +783,26 @@ public:
 
 		glm::mat4 char_rotate = glm::rotate(glm::mat4(1.0f), char_angle, vec3(0, 1, 0));
 		char_direction = vec4(0, 0, 0.01f, 0) * char_rotate;
-		if (char_forward)
+		if (char_forward && char_pos.x > -3.1f)
 		{
 			char_pos.z += char_direction.z;
 			char_pos.x += char_direction.x;
 		}
-		else if (char_backward)
+		else if (char_backward && char_pos.x <= char_posP2.x - 0.5f)
 		{
 			char_pos.z -= char_direction.z;
 			char_pos.x -= char_direction.x;
 		}
-		else if (char_left)
+		else if (char_left && char_pos.z > -6.5f)
 		{
 			char_pos.z -= 0.035;
+			char_pos.x -= 0.035;
 
 		}
-		else if (char_right)
+		else if (char_right && char_pos.z < -2.7f)
 		{
 			char_pos.z += 0.035;
+			char_pos.x += 0.035;
 		}
 
 
@@ -834,23 +836,25 @@ public:
 
 		glm::mat4 char_rotateP2 = glm::rotate(glm::mat4(1.0f), char_angleP2, vec3(0, 1, 0));
 		char_directionP2 = vec4(0, 0, 0.01f, 0) * char_rotateP2;
-		if (char_forwardP2)
+		if (char_forwardP2 && char_pos.x <= char_posP2.x - 0.5f)
 		{
 			char_posP2.z -= char_directionP2.z;
 			char_posP2.x -= char_directionP2.x;
 		}
-		else if (char_backwardP2)
+		else if (char_backwardP2 && char_posP2.x < 3.2f)
 		{
 			char_posP2.z += char_directionP2.z;
 			char_posP2.x += char_directionP2.x;
 		}
-		else if (char_leftP2)
+		else if (char_leftP2 && char_posP2.z < -2.7f)
 		{
 			char_posP2.z += 0.035;
+			char_posP2.x -= 0.035;
 		}
-		else if (char_rightP2)
+		else if (char_rightP2 && char_posP2.z > -6.5f)
 		{
 			char_posP2.z -= 0.035;
+			char_posP2.x += 0.035;
 		}
 
 		// Get current frame buffer size.

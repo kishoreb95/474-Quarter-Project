@@ -334,8 +334,11 @@ public:
 			nextAnimP2 = "idle"; // add punch animation
 		}
 
-
-
+		if (key == GLFW_KEY_F && action == GLFW_PRESS)
+		{
+			cout << "p1 Fireball: " << p1Fireball.x << ", " << p1Fireball.y << ", " << p1Fireball.z << endl;
+			cout << "p2 position: " << char_posP2.x - char_pos.x << ", " << char_posP2.y - char_pos.y << ", " << char_posP2.z - char_pos.z << endl;
+		}
 	}
 
 	// callback for the mouse when clicked move the triangle when helper functions
@@ -716,20 +719,23 @@ public:
 			}
 		}
 
-		if ((char_posP2.x - p1Fireball.x) < -2.7f && (abs(char_posP2.z - char_pos.z) < 0.5))
+		float playerRelativeX = (char_posP2.x - char_pos.x) * 0.91;
+		if (abs(playerRelativeX - abs(p1Fireball.x)) < 0.1f && (abs(char_posP2.z - char_pos.z) < 0.5))
 		{
 
 			p1Fireball = p1Head;
 			p1FireballVel = vec3(0.0f);
+			frame = 0;
 			healthP2 -= 25;
 			printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
 		}
 
-		if ((char_pos.x - p2Fireball.x) > 2.7f && (abs(char_posP2.z - char_pos.z) < 0.5))
+		if (abs(playerRelativeX - abs(p2Fireball.x)) < 0.1f && (abs(char_posP2.z - char_pos.z) < 0.5))
 		{
 
 			p2Fireball = p2Head;
 			p2FireballVel = vec3(0.0f);
+			frameP2 = 0;
 			health -= 25;
 			printf("Health P1: %f.....................Health P2: %f\n", health, healthP2);
 		}

@@ -13,3 +13,4 @@ fbx_convert_prog\ext\
 *.tlog
 *.exe
 *.ilk
+*.VC.db

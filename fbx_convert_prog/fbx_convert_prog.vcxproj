@@ -176,6 +176,8 @@
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\resources\floor_fragment.glsl" />
+    <None Include="..\resources\floor_vertex.glsl" />
     <None Include="..\resources\shader_fragment.glsl" />
     <None Include="..\resources\shader_vertex.glsl" />
     <None Include="..\resources\skyfrag.glsl" />

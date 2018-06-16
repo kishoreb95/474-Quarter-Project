@@ -613,7 +613,7 @@ public:
 
 		pfloor = std::make_shared<Program>();
 		pfloor->setVerbose(true);
-		pfloor->setShaderNames(current + "/floor_vertex.glsl", resourceDirectory + "/floor_fragment.glsl");
+		pfloor->setShaderNames(resourceDirectory + "/floor_vertex.glsl", resourceDirectory + "/floor_fragment.glsl");
 		if (!pfloor->init())
 		{
 			std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
@@ -624,6 +624,7 @@ public:
 		pfloor->addUniform("M");
 		pfloor->addUniform("campos");
 		pfloor->addAttribute("vertPos");
+		pfloor->addAttribute("vertTex");
 		pfloor->addAttribute("vertNor");
 
 		pparticle = std::make_shared<Program>();

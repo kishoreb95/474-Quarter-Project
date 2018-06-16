@@ -98,5 +98,7 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="floor_vertex.glsl" />
+    <None Include="..\resources\floor_fragment.glsl" />
+    <None Include="..\resources\floor_vertex.glsl" />
   </ItemGroup>
 </Project>

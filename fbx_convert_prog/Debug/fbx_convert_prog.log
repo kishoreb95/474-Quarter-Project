@@ -1,2 +1,118 @@
-﻿  fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.exe
-  fbx_convert_prog.vcxproj -> C:\Users\thech_000\Desktop\474-Quarter-Project\Debug\fbx_convert_prog.pdb (Full PDB)
+﻿  glad.c
+  fbx_convert.cpp
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(65): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(67): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(84): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(88): warning C4018: '>': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(109): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(122): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(154): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(128): warning C4101: 'q2': unreferenced local variable
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(128): warning C4101: 'q1': unreferenced local variable
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(169): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(222): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(240): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(256): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(262): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(270): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(90): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(91): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(92): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(105): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(106): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(107): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(109): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(110): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(111): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(112): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(164): warning C4244: 'initializing': conversion from 'fbxsdk::FbxLongLong' to 'int', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(184): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(185): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(186): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(193): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(194): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(195): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(199): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(200): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(201): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(202): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(207): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(208): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(209): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(264): warning C4244: 'initializing': conversion from 'fbxsdk::FbxLongLong' to 'int', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(243): warning C4101: 'i': unreferenced local variable
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\fbx_convert.cpp(287): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+  GLSL.cpp
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\glsl.cpp(113): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(2261): note: see declaration of 'sscanf'
+  line.cpp
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(148): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(172): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(175): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(176): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(177): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(181): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(182): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(183): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(197): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(138): warning C4101: 'first': unreferenced local variable
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(138): warning C4101: 'last': unreferenced local variable
+  main.cpp
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(65): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(67): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(84): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(88): warning C4018: '>': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(109): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(122): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(154): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(128): warning C4101: 'q2': unreferenced local variable
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(128): warning C4101: 'q1': unreferenced local variable
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(169): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(222): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(240): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(256): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(262): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\bone.h(270): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(97): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(101): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(105): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(107): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(529): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(132): note: see declaration of 'strcpy'
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(543): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(132): note: see declaration of 'strcpy'
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(792): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(797): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(843): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(847): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\main.cpp(872): warning C4305: 'initializing': truncation from 'double' to 'float'
+  MatrixStack.cpp
+  Particle.cpp
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\particle.cpp(18): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\particle.cpp(42): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\particle.cpp(65): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\particle.cpp(117): warning C4018: '<': signed/unsigned mismatch
+  Program.cpp
+  Shape.cpp
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\shape.cpp(65): warning C4018: '<': signed/unsigned mismatch
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\shape.cpp(75): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(132): note: see declaration of 'strcpy'
+  WindowManager.cpp
+  Generating Code...
+c:\users\kisho\documents\csc474\474-quarter-project\fbx_convert_prog\line.cpp(82): warning C4715: 'Line::init': not all control paths return a value
+glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(context.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_tls.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_tls.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\glfw.pdb'; linking object as if no debug info
+  fbx_convert_prog.vcxproj -> C:\Users\kisho\Documents\csc474\474-Quarter-Project\Debug\fbx_convert_prog.exe
